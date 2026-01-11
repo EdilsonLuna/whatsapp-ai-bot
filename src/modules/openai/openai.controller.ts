@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import OpenAI from "openai";
-import { env } from "../config/env";
+import { env } from "../../config/env";
 
 const client = new OpenAI({
     apiKey: env.OPENAI_API_KEY

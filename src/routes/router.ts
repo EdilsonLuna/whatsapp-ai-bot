@@ -2,8 +2,8 @@ import { Router } from "express";
 import { 
     metaWebhookValidation, 
     metaWebhookMessage
-} from "../controllers/meta.controller";
-import { enviarMensajeOpenAI } from "../controllers/openai.controller";
+} from './../modules/meta/meta.controller';
+import { enviarMensajeOpenAI } from "../modules/openai/openai.controller";
 
 const router = Router();
 

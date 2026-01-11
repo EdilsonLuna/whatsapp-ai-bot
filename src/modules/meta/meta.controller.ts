@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { env } from "../config/env";
+import { env } from "../../config/env";
 
 export const metaWebhookValidation = (req:Request, res:Response) => {
     console.log('cae en verificacion get');
