@@ -140,3 +140,28 @@ export const processAssistantResponse = async (
   
   return messageId;
 };
+
+/**
+ * Obtener todas las conversaciones con su último mensaje
+ * Organizado por ID de conversación
+ */
+export const getAllConversationsWithLastMessage = async () => {
+  const rows = await chatsRepository.getAllConversationsWithLastMessage();
+  
+  // Transformar los datos en un formato más organizado
+  const conversations = rows.map(row => ({
+    id: row.id,
+    user_phone: row.user_phone,
+    started_at: row.started_at,
+    last_message_at: row.last_message_at,
+    is_active: row.is_active,
+    last_message: row.last_message_id ? {
+      id: row.last_message_id,
+      sender: row.last_message_sender,
+      message: row.last_message_text,
+      created_at: row.last_message_created_at
+    } : null
+  }));
+  
+  return conversations;
+};

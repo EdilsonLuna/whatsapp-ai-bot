@@ -107,3 +107,25 @@ export const getConversationHistory = async (req: Request, res: Response) => {
     });
   }
 };
+
+/**
+ * Obtener todas las conversaciones con su último mensaje
+ * Endpoint para listar todas las conversaciones organizadas por ID
+ */
+export const getAllConversations = async (req: Request, res: Response) => {
+  try {
+    const conversations = await chatsService.getAllConversationsWithLastMessage();
+
+    return res.status(200).json({
+      success: true,
+      data: conversations
+    });
+
+  } catch (error: any) {
+    console.error('Error al obtener conversaciones:', error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || 'Error al obtener conversaciones'
+    });
+  }
+};

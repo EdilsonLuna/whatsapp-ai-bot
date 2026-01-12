@@ -124,3 +124,35 @@ export const getLastMessages = async (conversationId: number, limit: number = 10
   // Invertir orden para tener mensajes cronológicamente
   return (rows as Message[]).reverse();
 };
+
+/**
+ * Obtener todas las conversaciones con su último mensaje
+ */
+export const getAllConversationsWithLastMessage = async (): Promise<any[]> => {
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT 
+      c.id,
+      c.user_phone,
+      c.started_at,
+      c.last_message_at,
+      c.is_active,
+      m.id as last_message_id,
+      m.sender as last_message_sender,
+      m.message as last_message_text,
+      m.created_at as last_message_created_at
+    FROM conversations c
+    LEFT JOIN (
+      SELECT m1.*
+      FROM messages m1
+      INNER JOIN (
+        SELECT conversation_id, MAX(created_at) as max_created_at
+        FROM messages
+        GROUP BY conversation_id
+      ) m2 ON m1.conversation_id = m2.conversation_id 
+        AND m1.created_at = m2.max_created_at
+    ) m ON c.id = m.conversation_id
+    ORDER BY c.last_message_at DESC`
+  );
+
+  return rows as any[];
+};
