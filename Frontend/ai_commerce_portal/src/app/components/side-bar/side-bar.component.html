@@ -1,0 +1,48 @@
+<!-- Sidebar Container -->
+<div class="sidebar-wrapper" [class.collapsed]="isCollapsed">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="mb-0 sidebar-title" *ngIf="!isCollapsed">
+        <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+        Menú Principal
+      </h5>
+      <button 
+        *ngIf="!isCollapsed"
+        class="btn btn-link text-secondary p-0 toggle-btn" 
+        (click)="toggleSidebar()"
+        [attr.aria-label]="isCollapsed ? 'Expandir menú' : 'Colapsar menú'">
+        <i [class]="isCollapsed ? 'bi bi-chevron-right' : 'bi bi-chevron-left'"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Navigation Menu -->
+  <nav class="sidebar-nav">
+    <ul class="nav flex-column">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a 
+          [routerLink]="item.route" 
+          routerLinkActive="active"
+          class="nav-link"
+          [attr.title]="isCollapsed ? item.label : null">
+          <i [class]="'bi ' + item.icon + ' nav-icon'"></i>
+          <span class="nav-label" *ngIf="!isCollapsed">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Collapsed Toggle Button (cuando está colapsado) -->
+<div class="collapsed-toggle" *ngIf="isCollapsed">
+  <button 
+    class="btn btn-primary btn-sm" 
+    (click)="toggleSidebar()"
+    aria-label="Expandir menú">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</div>
