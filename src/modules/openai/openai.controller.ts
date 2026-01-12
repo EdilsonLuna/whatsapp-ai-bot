@@ -1,28 +1,45 @@
 import { Request, Response } from "express";
+import { responderAI, createPrompt } from "./openai.service";
 import OpenAI from "openai";
-import { env } from "../../config/env";
-
-const client = new OpenAI({
-    apiKey: env.OPENAI_API_KEY
-});
+import * as productsService from "../products/products.service";
 
 
 export const enviarMensajeOpenAI = async (req:Request, res:Response) => {
-    const respuesta = await responderAI();
-    return res.status(200).json({"message": respuesta});
+    try {
+        // 1. Consulta de productos disponibles
+        console.log('Consultando productos disponibles...');
+        const productsList = await productsService.obtenerTodosLosProductos();
+        console.log(`Productos encontrados: ${productsList.length}`);
+
+        // 2. Armado de prompt para ia
+        console.log('Armando prompt para OpenAI...');
+        const prompt = createPrompt(productsList);
+        console.log('Prompt creado:');
+        console.log(prompt);
+        console.log('----------------------------');
+
+        // 3. Envio de prompt completo a openai
+        const userMessage = req.body.message || 'Hola, quisiera información sobre los teléfonos.';
+        console.log('Mensaje del usuario:', userMessage);
+        console.log('Enviando mensaje a OpenAI...');
+        
+        const respuesta:OpenAI.Responses.Response = await responderAI(prompt, userMessage);
+        
+        console.log('Respuesta de OpenAI recibida:');
+        console.log('Output text:', respuesta.output_text);
+        console.log('----------------------------');
+
+        // 5. Retorno de mensaje unicamente
+        return res.status(200).json({
+            success: true,
+            message: respuesta.output_text
+        });
+    } catch (error: any) {
+        console.error('Error en enviarMensajeOpenAI:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || 'Error al procesar el mensaje con OpenAI'
+        });
+    }
 }
 
-
-async function responderAI() {
-  const completion = await client.responses.create({
-    model: "gpt-4o-mini",
-    // reasoning: {effort: 'low'},
-    input: [
-      { role: "developer", content: "Eres un asistente de ventas de celulares. Debes tener un tono amable, calido, que haga sentir en confianza al comprador. A su vez, debes usar palabras que enganchen y emocionen a la persona a comprar los productos. El stock de la tienda es iphone 14 pro de 128 gb color negro. Con valor de 2'500'000 COP. Acercandose antes del 12/01/2025 puede tener 20% de descuento." },
-      { role: "user", content: "Hola. Quisiera informacion sobre los telefonos" }
-    ]
-  });
-  console.log('respuesta de openai');
-  console.log(JSON.stringify(completion));
-  return completion.output_text;
-}
