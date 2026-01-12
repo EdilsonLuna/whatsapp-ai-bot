@@ -4,6 +4,7 @@ import {
     metaWebhookMessage
 } from './../modules/meta/meta.controller';
 import { enviarMensajeOpenAI } from "../modules/openai/openai.controller";
+import { getConversationHistory } from "../modules/chats/chats.controller";
 
 const router = Router();
 
@@ -15,5 +16,8 @@ router.post('/webhook', metaWebhookMessage);
 
 // Endpoint para enviar mensajes manualmente a openAI
 router.post('/pruebaOpenAI', enviarMensajeOpenAI);
+
+// Endpoint para obtener historial de conversación
+router.get('/conversations/:conversationId/history', getConversationHistory);
 
 export default router;
