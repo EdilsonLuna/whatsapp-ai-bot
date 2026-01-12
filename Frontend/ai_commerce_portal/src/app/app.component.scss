@@ -11,14 +11,14 @@
   }
 }
 
-// Responsive
+// Responsive - mantener el mismo comportamiento que en PC
 @media (max-width: 768px) {
   .main-content {
-    margin-left: 0;
+    margin-left: 260px; // Mantener margen según sidebar
     padding: 1rem;
 
     &.sidebar-collapsed {
-      margin-left: 0;
+      margin-left: 60px; // Mantener margen cuando está colapsado
     }
   }
 }

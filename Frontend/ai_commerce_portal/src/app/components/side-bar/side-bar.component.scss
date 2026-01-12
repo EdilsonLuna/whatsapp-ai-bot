@@ -171,13 +171,18 @@ $transition-speed: 0.3s;
 // Responsive adjustments
 @media (max-width: 768px) {
   .sidebar-wrapper {
-    width: 100%;
-    max-width: $sidebar-width;
-    transform: translateX(0);
-    
+    // Mantener el mismo comportamiento que en PC
     &.collapsed {
-      transform: translateX(-100%);
-      width: 0;
+      width: $sidebar-collapsed-width;
+    }
+  }
+  
+  // Ajustar el contenido principal en móvil
+  .main-content {
+    margin-left: $sidebar-width;
+    
+    &.sidebar-collapsed {
+      margin-left: $sidebar-collapsed-width;
     }
   }
 }
