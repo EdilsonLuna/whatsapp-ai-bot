@@ -1,0 +1,73 @@
+.conversations-container {
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.conversations-sidebar {
+  width: 350px;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-header {
+  flex-shrink: 0;
+}
+
+.conversations-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.conversation-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-left 0.2s ease;
+  border-left: 3px solid transparent;
+  padding: 1rem;
+}
+
+.conversation-item:hover {
+  background-color: #f8f9fa;
+  border-left-color: #1976d2;
+}
+
+.conversation-item:active {
+  background-color: #e9ecef;
+}
+
+.conversation-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.no-chat-selected {
+  background-color: #ffffff;
+  border: 2px dashed #dee2e6;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+
+.badge-sm {
+  font-size: 0.7rem;
+  padding: 0.25em 0.5em;
+}
+
+/* Scrollbar personalizado */
+.conversations-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.conversations-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.conversations-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.conversations-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

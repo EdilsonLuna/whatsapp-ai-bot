@@ -28,7 +28,7 @@ export class SideBarComponent {
     },
     {
       label: 'Listar Conversaciones',
-      route: '/Dashboard/list-conversations',
+      route: '/Dashboard/list-chats',
       icon: 'bi-chat-dots'
     }
   ];

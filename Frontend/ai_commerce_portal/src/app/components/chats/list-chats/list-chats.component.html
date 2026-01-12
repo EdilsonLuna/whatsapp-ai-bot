@@ -1,1 +1,81 @@
-<p>list-chats works!</p>
+<div class="conversations-container d-flex h-100">
+  <!-- Sidebar: Lista de conversaciones -->
+  <div class="conversations-sidebar border-end bg-white">
+    <!-- Header del sidebar -->
+    <div class="sidebar-header p-3 border-bottom bg-light">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-semibold">
+          <i class="bi bi-chat-dots"></i> Conversaciones
+        </h5>
+        <button 
+          class="btn btn-sm btn-outline-primary" 
+          (click)="refreshConversations()"
+          [disabled]="isLoading"
+          title="Actualizar">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lista de conversaciones -->
+    <div class="conversations-list">
+      <!-- Estado de carga -->
+      <div *ngIf="isLoading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="text-muted mt-2 small">Cargando conversaciones...</p>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="errorMessage && !isLoading" class="alert alert-danger m-3" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> {{ errorMessage }}
+      </div>
+
+      <!-- Lista -->
+      <div class="list-group list-group-flush" *ngIf="!isLoading && !errorMessage">
+        <div 
+          *ngFor="let conversation of conversations"
+          class="list-group-item list-group-item-action conversation-item"
+          (click)="openConversation(conversation.id)"
+          role="button">
+          <div class="d-flex w-100 justify-content-between align-items-start mb-1">
+            <h6 class="mb-0 fw-semibold">
+              <i class="bi bi-phone"></i> {{ conversation.user_phone }}
+            </h6>
+            <small class="text-muted">{{ formatTime(conversation.last_message_at) }}</small>
+          </div>
+          <p class="mb-0 text-muted small">{{ truncateMessage(conversation.last_message.message) }}</p>
+          <div class="mt-1">
+            <span class="badge bg-secondary badge-sm" *ngIf="conversation.is_active === 1">
+              Activa
+            </span>
+            <span class="badge bg-light text-dark badge-sm" *ngIf="conversation.is_active === 0">
+              Inactiva
+            </span>
+          </div>
+        </div>
+
+        <!-- Sin conversaciones -->
+        <div *ngIf="conversations.length === 0" class="text-center py-5 px-3">
+          <i class="bi bi-inbox fs-1 text-muted"></i>
+          <p class="text-muted mt-2">No hay conversaciones disponibles</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área de contenido: info-chat -->
+  <div class="conversation-content flex-grow-1 bg-light">
+    <router-outlet></router-outlet>
+    
+    <!-- Placeholder cuando no hay chat seleccionado -->
+    <div class="no-chat-selected d-flex align-items-center justify-content-center h-100 text-center px-4" *ngIf="!router.url.includes('chat/')">
+      <div>
+        <i class="bi bi-chat-square-text fs-1 text-muted mb-3 d-block"></i>
+        <h5 class="text-secondary">Selecciona una conversación</h5>
+        <p class="text-muted">Elige una conversación de la lista para ver su historial completo</p>
+      </div>
+    </div>
+  </div>
+</div>
