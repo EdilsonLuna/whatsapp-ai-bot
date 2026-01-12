@@ -8,7 +8,6 @@
         Menú Principal
       </h5>
       <button 
-        *ngIf="!isCollapsed"
         class="btn btn-link text-secondary p-0 toggle-btn" 
         (click)="toggleSidebar()"
         [attr.aria-label]="isCollapsed ? 'Expandir menú' : 'Colapsar menú'">
@@ -35,14 +34,4 @@
       </li>
     </ul>
   </nav>
-</div>
-
-<!-- Collapsed Toggle Button (cuando está colapsado) -->
-<div class="collapsed-toggle" *ngIf="isCollapsed">
-  <button 
-    class="btn btn-primary btn-sm" 
-    (click)="toggleSidebar()"
-    aria-label="Expandir menú">
-    <i class="bi bi-chevron-right"></i>
-  </button>
 </div>
