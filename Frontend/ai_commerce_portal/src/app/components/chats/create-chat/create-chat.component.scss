@@ -1,0 +1,48 @@
+.chat-container {
+  height: 100vh;
+  max-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.messages-section {
+  background-color: #ffffff;
+  max-height: calc(100vh - 200px);
+}
+
+.user-message .card {
+  background-color: #e3f2fd;
+  border-left: 4px solid #1976d2;
+}
+
+.ai-message .card {
+  background-color: #f1f8e9;
+  border-left: 4px solid #689f38;
+}
+
+.input-section {
+  min-height: 140px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+textarea.form-control {
+  resize: none;
+  border-radius: 0.375rem 0 0 0.375rem;
+}
+
+.btn-primary {
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.card {
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+pre {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #333;
+}

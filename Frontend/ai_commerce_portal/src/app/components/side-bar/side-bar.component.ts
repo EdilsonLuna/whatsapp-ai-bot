@@ -23,12 +23,12 @@ export class SideBarComponent {
   menuItems: MenuItem[] = [
     {
       label: 'Crear Conversación',
-      route: '/create-conversation',
-      icon: 'bi-plus-circle'
+      route: '/Dashboard/create-conversation',
+      icon: 'bi-plus-circle' 
     },
     {
       label: 'Listar Conversaciones',
-      route: '/list-conversations',
+      route: '/Dashboard/list-conversations',
       icon: 'bi-chat-dots'
     }
   ];
