@@ -15,6 +15,10 @@ export const routes: Routes = [
             {
                 path: 'create-conversation',
                 loadComponent: () => import('./components/chats/create-chat/create-chat.component').then(c=>c.CreateChatComponent)
+            },
+            {
+                path: 'list-chats',
+                loadComponent: () => import('./components/chats/list-chats/list-chats.component').then(c=>c.ListChatsComponent)
             }
         ]
     }
