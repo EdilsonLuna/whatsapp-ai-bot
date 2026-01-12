@@ -68,7 +68,7 @@ export class ListChatsComponent implements OnInit {
     this.router.navigate(['/Dashboard/list-chats/chat', conversationId]);
   }
 
-  truncateMessage(message: string, maxLength: number = 20): string {
+  truncateMessage(message: string, maxLength: number = 40): string {
     if (message.length <= maxLength) {
       return message;
     }
