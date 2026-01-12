@@ -53,9 +53,9 @@ CATÁLOGO DE PRODUCTOS DISPONIBLES:
     // Agregar productos al prompt
     productsByType.forEach((products, typeId) => {
         products.forEach(product => {
-            const stockStatus = product.stock > 0 ? `En stock: ${product.stock} unidades` : 'AGOTADO';
+            const stockStatus = product.stock > 0 ? `Stock disponible` : 'Stock agotado';
             prompt += `
-📱 ${product.name}`;
+📱 ${product.name}`; 
             prompt += `\n   - Precio: $${product.price}`;
             prompt += `\n   - ${stockStatus}`;
             if (product.description) {
