@@ -8,6 +8,7 @@ import {
     getConversationHistory,
     getAllConversations 
 } from "../modules/chats/chats.controller";
+import { consultarProductos } from "../modules/products/products.controller";
 
 const router = Router();
 
@@ -25,5 +26,8 @@ router.get('/conversations', getAllConversations);
 
 // Endpoint para obtener historial de conversación
 router.get('/conversations/:conversationId/history', getConversationHistory);
+
+// Endpoint para obtener todos los productos en base de datos
+router.get('/products', consultarProductos);
 
 export default router;
