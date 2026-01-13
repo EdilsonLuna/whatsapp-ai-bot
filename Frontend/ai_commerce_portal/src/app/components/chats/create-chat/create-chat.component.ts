@@ -19,14 +19,14 @@ interface ApiResponse {
 }
 
 @Component({
-  selector: 'app-create-chat',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    FormsModule
-  ],
-  templateUrl: './create-chat.component.html',
-  styleUrl: './create-chat.component.scss'
+    selector: 'app-create-chat',
+    imports: [
+        CommonModule,
+        FormsModule
+    ],
+    templateUrl: './create-chat.component.html',
+    styleUrl: './create-chat.component.scss',
+    standalone: true
 })
 export class CreateChatComponent implements OnInit {
   messages: Message[] = [];

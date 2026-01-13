@@ -25,14 +25,14 @@ interface ConversationsResponse {
 }
 
 @Component({
-  selector: 'app-list-chats',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './list-chats.component.html',
-  styleUrl: './list-chats.component.scss'
+    selector: 'app-list-chats',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './list-chats.component.html',
+    styleUrl: './list-chats.component.scss',
+    standalone: true
 })
 export class ListChatsComponent implements OnInit {
   conversations: Conversation[] = [];

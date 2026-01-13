@@ -18,13 +18,13 @@ interface ConversationHistoryResponse {
 }
 
 @Component({
-  selector: 'app-info-chat',
-  standalone: true,
-  imports: [
-    CommonModule 
-  ],
-  templateUrl: './info-chat.component.html',
-  styleUrl: './info-chat.component.scss'
+    selector: 'app-info-chat',
+    imports: [
+        CommonModule
+    ],
+    templateUrl: './info-chat.component.html',
+    styleUrl: './info-chat.component.scss',
+    standalone: true
 })
 export class InfoChatComponent implements OnInit {
   conversationId: number = 0;
