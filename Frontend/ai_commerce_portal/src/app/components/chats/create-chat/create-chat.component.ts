@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 interface Message {
   text: string;
@@ -21,7 +21,10 @@ interface ApiResponse {
 @Component({
   selector: 'app-create-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [
+    CommonModule, 
+    FormsModule
+  ],
   templateUrl: './create-chat.component.html',
   styleUrl: './create-chat.component.scss'
 })

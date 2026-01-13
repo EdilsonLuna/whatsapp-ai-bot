@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 interface Message {
@@ -20,7 +20,9 @@ interface ConversationHistoryResponse {
 @Component({
   selector: 'app-info-chat',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [
+    CommonModule 
+  ],
   templateUrl: './info-chat.component.html',
   styleUrl: './info-chat.component.scss'
 })

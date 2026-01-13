@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 interface LastMessage {
@@ -27,7 +27,10 @@ interface ConversationsResponse {
 @Component({
   selector: 'app-list-chats',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './list-chats.component.html',
   styleUrl: './list-chats.component.scss'
 })
