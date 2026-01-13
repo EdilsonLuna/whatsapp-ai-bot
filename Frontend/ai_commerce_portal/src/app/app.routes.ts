@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import path from 'path';
+import { ProductsComponent } from './components/products/products.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,10 @@ export const routes: Routes = [
                         loadComponent : () => import('./components/chats/list-chats/info-chat/info-chat.component').then(c=>c.InfoChatComponent)
                     }
                 ]
+            },
+            {
+                path: 'products',
+                component: ProductsComponent
             }
         ]
     }

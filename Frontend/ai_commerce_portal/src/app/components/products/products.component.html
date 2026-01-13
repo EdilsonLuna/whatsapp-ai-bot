@@ -1,0 +1,87 @@
+<div class="container-fluid py-4">
+  <!-- Encabezado de la página -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1 fw-semibold text-dark">Gestión de Productos</h2>
+          <p class="text-muted mb-0">Administre el catálogo de productos disponibles</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de acciones -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="text-muted me-3">Total de productos: <strong class="text-dark">{{ products.length }}</strong></span>
+            </div>
+            <div>
+              <button 
+                type="button" 
+                class="btn btn-primary"
+                (click)="createNewProduct()"
+                [disabled]="loading">
+                <i class="bi bi-plus-circle me-2"></i>
+                Crear Nuevo Producto
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom py-3">
+          <h5 class="mb-0 fw-semibold text-dark">Listado de Productos</h5>
+        </div>
+        <div class="card-body p-0">
+          <!-- Indicador de carga -->
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="text-muted mt-3 mb-0">Cargando productos...</p>
+          </div>
+
+          <!-- AG-Grid -->
+          <div *ngIf="!loading && products.length > 0" class="ag-theme-quartz" style="height: 600px; width: 100%;">
+            <ag-grid-angular
+              style="width: 100%; height: 100%;"
+              [rowData]="products"
+              [columnDefs]="colDefs"
+              [defaultColDef]="defaultColDef"
+              [pagination]="true"
+              [paginationPageSize]="paginationPageSize"
+              [paginationPageSizeSelector]="paginationPageSizeSelector">
+            </ag-grid-angular>
+          </div>
+
+          <!-- Mensaje cuando no hay productos -->
+          <div *ngIf="!loading && products.length === 0" class="text-center py-5">
+            <div class="mb-3">
+              <i class="bi bi-inbox" style="font-size: 3rem; color: #6c757d;"></i>
+            </div>
+            <h5 class="text-muted">No hay productos disponibles</h5>
+            <p class="text-muted mb-4">Comience creando su primer producto</p>
+            <button 
+              type="button" 
+              class="btn btn-primary"
+              (click)="createNewProduct()">
+              <i class="bi bi-plus-circle me-2"></i>
+              Crear Nuevo Producto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,6 +30,11 @@ export class SideBarComponent {
       label: 'Listar Conversaciones',
       route: '/Dashboard/list-chats',
       icon: 'bi-chat-dots'
+    },
+    {
+      label: 'Productos',
+      route: '/Dashboard/products',
+      icon: 'bi bi-box'
     }
   ];
 
