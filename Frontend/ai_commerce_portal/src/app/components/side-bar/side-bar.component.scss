@@ -136,6 +136,7 @@ $transition-speed: 0.3s;
     &:hover {
       background-color: $hover-bg;
       color: $primary-color;
+      cursor: pointer;
       
       .nav-icon {
         color: $primary-color;

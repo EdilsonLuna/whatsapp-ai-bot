@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 interface MenuItem {
   label: string;
@@ -10,30 +10,39 @@ interface MenuItem {
 
 @Component({
     selector: 'app-side-bar',
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule],
     templateUrl: './side-bar.component.html',
     styleUrl: './side-bar.component.scss',
     standalone: true
 })
 export class SideBarComponent {
   @Output() sidebarStateChange = new EventEmitter<boolean>();
+
+  constructor(private router:Router){
+
+  }
   
   isCollapsed = false;
 
   menuItems: MenuItem[] = [
     {
       label: 'Crear Conversación',
-      route: '/Dashboard/create-conversation',
+      route: 'create-conversation',
       icon: 'bi-plus-circle' 
     },
     {
       label: 'Listar Conversaciones',
-      route: '/Dashboard/list-chats',
+      route: 'list-chats',
       icon: 'bi-chat-dots'
     },
     {
       label: 'Productos',
-      route: '/Dashboard/products',
+      route: 'products',
+      icon: 'bi bi-box'
+    },
+    {
+      label: 'Productos',
+      route: 'configuration',
       icon: 'bi bi-box'
     }
   ];
@@ -41,5 +50,9 @@ export class SideBarComponent {
   toggleSidebar(): void {
     this.isCollapsed = !this.isCollapsed;
     this.sidebarStateChange.emit(this.isCollapsed);
+  }
+
+  onClickModule(route:string){
+    this.router.navigate(['/Dashboard/' + route])
   }
 }
