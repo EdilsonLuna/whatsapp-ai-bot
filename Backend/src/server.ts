@@ -26,18 +26,18 @@ app.use(cookieParser());
 //Middleware para limitar la cantidad de peticiones por ip
 app.use(limiter);
 //Middleware de manejo global de errores
-app.use((req:Request, res:Response, next:NextFunction) => 
-{ 
-  if(( req.method == "POST" && req.body == undefined) || (req.method == "GET" && req.headers == undefined))
-  {
-    console.log('error en uno de los parametros');
-    console.log('Body:', req.body);
-    console.log('Headers:', req.headers);
-    return res.status(500).json({status: 'error', msg:'Peticion erronea'}); 
-  } else{
-    next();
-  }
-});
+// app.use((req:Request, res:Response, next:NextFunction) => 
+// { 
+//   if(( req.method == "POST" && req.body == undefined) || (req.method == "GET" && req.headers == undefined))
+//   {
+//     console.log('error en uno de los parametros');
+//     console.log('Body:', req.body);
+//     console.log('Headers:', req.headers);
+//     return res.status(500).json({status: 'error', msg:'Peticion erronea'}); 
+//   } else{
+//     next();
+//   }
+// });
 //Enrutador
 app.use('/api', router);
 //Redirigir las rutas no mapeadas
