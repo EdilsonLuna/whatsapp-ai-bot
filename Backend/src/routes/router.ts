@@ -9,6 +9,11 @@ import {
     getAllConversations 
 } from "../modules/chats/chats.controller";
 import { consultarProductos } from "../modules/products/products.controller";
+import { 
+    obtenerConfiguracion,
+    actualizarConfiguracion,
+    obtenerTiposRespuesta 
+} from "../modules/settings/settings.controller";
 
 const router = Router();
 
@@ -29,5 +34,14 @@ router.get('/conversations/:conversationId/history', getConversationHistory);
 
 // Endpoint para obtener todos los productos en base de datos
 router.get('/products', consultarProductos);
+
+// Endpoint para obtener la configuración del sistema
+router.get('/settings', obtenerConfiguracion);
+
+// Endpoint para actualizar la configuración del sistema
+router.put('/settings', actualizarConfiguracion);
+
+// Endpoint para obtener todos los tipos de respuesta disponibles
+router.get('/settings/answer-types', obtenerTiposRespuesta);
 
 export default router;

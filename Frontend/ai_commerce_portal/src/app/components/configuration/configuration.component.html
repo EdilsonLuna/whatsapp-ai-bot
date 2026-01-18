@@ -1,1 +1,375 @@
-<p>configuration works!</p>
+<div class="configuration-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="page-title mb-0">Configuración del Sistema</h1>
+          <p class="text-muted mb-0">Administra la configuración general del chatbot de WhatsApp</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="container-fluid py-5">
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted">Cargando configuración...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="loadError && !isLoading" class="container-fluid py-4">
+    <div class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!isLoading && !loadError" class="container-fluid py-4">
+    <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Success/Error Messages -->
+      <div class="row mb-3" *ngIf="successMessage || errorMessage">
+        <div class="col-12">
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ successMessage }}
+            <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Main Settings Column -->
+        <div class="col-lg-8">
+          
+          <!-- Información General -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Información General</h5>
+            </div>
+            <div class="card-body">
+              
+              <!-- Nombre de la Empresa -->
+              <div class="mb-4">
+                <label for="company_name" class="form-label">
+                  Nombre de la Empresa <span class="text-danger">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="company_name" 
+                  formControlName="company_name"
+                  [class.is-invalid]="configForm.get('company_name')?.invalid && configForm.get('company_name')?.touched"
+                  placeholder="Ingresa el nombre de tu empresa">
+                <div class="invalid-feedback" *ngIf="configForm.get('company_name')?.invalid && configForm.get('company_name')?.touched">
+                  El nombre de la empresa es requerido
+                </div>
+              </div>
+
+              <!-- System Prompt -->
+              <div class="mb-4">
+                <label for="system_prompt" class="form-label">
+                  System Prompt <span class="text-danger">*</span>
+                </label>
+                <textarea 
+                  class="form-control" 
+                  id="system_prompt" 
+                  formControlName="system_prompt"
+                  rows="5"
+                  [class.is-invalid]="configForm.get('system_prompt')?.invalid && configForm.get('system_prompt')?.touched"
+                  placeholder="Define el comportamiento del asistente virtual..."></textarea>
+                <div class="form-text d-flex justify-content-between align-items-center">
+                  <span>Instrucciones que definen el comportamiento del asistente</span>
+                  <span [class]="getProgressClass('system_prompt')">
+                    {{ getCharCount('system_prompt') }}/{{ getCharLimit('system_prompt') }}
+                  </span>
+                </div>
+                <div class="invalid-feedback" *ngIf="configForm.get('system_prompt')?.invalid && configForm.get('system_prompt')?.touched">
+                  El system prompt es requerido y no debe exceder {{ getCharLimit('system_prompt') }} caracteres
+                </div>
+              </div>
+
+              <!-- Answer Type -->
+              <div class="mb-4">
+                <label for="answer_type_id" class="form-label">
+                  Tipo de Respuesta <span class="text-danger">*</span>
+                </label>
+                <select 
+                  class="form-select" 
+                  id="answer_type_id" 
+                  formControlName="answer_type_id"
+                  [class.is-invalid]="configForm.get('answer_type_id')?.invalid && configForm.get('answer_type_id')?.touched">
+                  <option [value]="null" disabled>Selecciona un tipo de respuesta</option>
+                  <option *ngFor="let type of answerTypes" [value]="type.id">
+                    {{ type.type_name }} - {{ type.description }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="configForm.get('answer_type_id')?.invalid && configForm.get('answer_type_id')?.touched">
+                  Debes seleccionar un tipo de respuesta
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mensajes Automáticos -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Mensajes Automáticos</h5>
+            </div>
+            <div class="card-body">
+              
+              <!-- Welcome Message -->
+              <div class="mb-4">
+                <label for="welcome_message" class="form-label">
+                  Mensaje de Bienvenida <span class="text-danger">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="welcome_message" 
+                  formControlName="welcome_message"
+                  [class.is-invalid]="configForm.get('welcome_message')?.invalid && configForm.get('welcome_message')?.touched"
+                  placeholder="¡Hola! Bienvenido a...">
+                <div class="form-text d-flex justify-content-between align-items-center">
+                  <span>Primer mensaje que recibe el usuario</span>
+                  <span [class]="getProgressClass('welcome_message')">
+                    {{ getCharCount('welcome_message') }}/{{ getCharLimit('welcome_message') }}
+                  </span>
+                </div>
+                <div class="invalid-feedback" *ngIf="configForm.get('welcome_message')?.invalid && configForm.get('welcome_message')?.touched">
+                  El mensaje de bienvenida es requerido y no debe exceder {{ getCharLimit('welcome_message') }} caracteres
+                </div>
+              </div>
+
+              <!-- Fallback Message -->
+              <div class="mb-4">
+                <label for="fallback_message" class="form-label">
+                  Mensaje de Error <span class="text-danger">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="fallback_message" 
+                  formControlName="fallback_message"
+                  [class.is-invalid]="configForm.get('fallback_message')?.invalid && configForm.get('fallback_message')?.touched"
+                  placeholder="Lo siento, no entendí tu mensaje...">
+                <div class="form-text d-flex justify-content-between align-items-center">
+                  <span>Mensaje cuando el bot no entiende la consulta</span>
+                  <span [class]="getProgressClass('fallback_message')">
+                    {{ getCharCount('fallback_message') }}/{{ getCharLimit('fallback_message') }}
+                  </span>
+                </div>
+                <div class="invalid-feedback" *ngIf="configForm.get('fallback_message')?.invalid && configForm.get('fallback_message')?.touched">
+                  El mensaje de error es requerido y no debe exceder {{ getCharLimit('fallback_message') }} caracteres
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Horarios de Negocio -->
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title mb-0">Horarios de Atención</h5>
+                <small class="text-muted">Configura los días y horarios de disponibilidad</small>
+              </div>
+              <div class="form-check form-switch">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  id="business_hours_enabled" 
+                  formControlName="business_hours_enabled">
+                <label class="form-check-label" for="business_hours_enabled">
+                  Habilitar horarios
+                </label>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="configForm.get('business_hours_enabled')?.value">
+              
+              <!-- Business Hours List -->
+              <div *ngIf="businessHoursArray.length === 0" class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                No hay horarios configurados. Haz clic en "Agregar Día" para comenzar.
+              </div>
+
+              <div *ngFor="let hourGroup of businessHoursArray.controls; let i = index" 
+                   [formGroup]="$any(hourGroup)" 
+                   class="business-hour-item mb-3 p-3 border rounded">
+                
+                <div class="row align-items-center">
+                  <!-- Día -->
+                  <div class="col-md-3">
+                    <label class="form-label">Día</label>
+                    <select class="form-select form-select-sm" formControlName="day">
+                      <option *ngFor="let day of getAvailableDays($any(hourGroup).get('day')?.value)" [value]="day.key">
+                        {{ day.label }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <!-- Habilitado -->
+                  <div class="col-md-2">
+                    <label class="form-label d-block">Estado</label>
+                    <div class="form-check">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        [id]="'enabled_' + i" 
+                        formControlName="enabled">
+                      <label class="form-check-label" [for]="'enabled_' + i">
+                        Activo
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Hora Apertura -->
+                  <div class="col-md-3">
+                    <label class="form-label">Apertura</label>
+                    <input 
+                      type="time" 
+                      class="form-control form-control-sm" 
+                      formControlName="open"
+                      [disabled]="!$any(hourGroup).get('enabled')?.value">
+                  </div>
+
+                  <!-- Hora Cierre -->
+                  <div class="col-md-3">
+                    <label class="form-label">Cierre</label>
+                    <input 
+                      type="time" 
+                      class="form-control form-control-sm" 
+                      formControlName="close"
+                      [disabled]="!$any(hourGroup).get('enabled')?.value">
+                  </div>
+
+                  <!-- Eliminar -->
+                  <div class="col-md-1">
+                    <label class="form-label d-block">&nbsp;</label>
+                    <button 
+                      type="button" 
+                      class="btn btn-sm btn-outline-danger" 
+                      (click)="removeBusinessHour(i)"
+                      title="Eliminar horario">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add Day Button -->
+              <button 
+                type="button" 
+                class="btn btn-outline-primary btn-sm mt-2" 
+                (click)="addBusinessHour()"
+                [disabled]="businessHoursArray.length >= 7">
+                <i class="bi bi-plus-circle me-1"></i>
+                Agregar Día
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="col-lg-4">
+          
+          <div class="sticky-top" style="top: 20px;">
+            <!-- Actions Card -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Acciones</h5>
+              </div>
+              <div class="card-body">
+                
+                <!-- Unsaved Changes Alert -->
+                <div *ngIf="hasUnsavedChanges()" class="alert alert-warning" role="alert">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  <strong>Cambios sin guardar</strong>
+                  <p class="mb-0 small">Tienes modificaciones pendientes</p>
+                </div>
+
+                <!-- Save Button -->
+                <button 
+                  type="submit" 
+                  class="btn btn-primary w-100 mb-2"
+                  [disabled]="isSaving || configForm.invalid">
+                  <span *ngIf="!isSaving">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Guardar Configuración
+                  </span>
+                  <span *ngIf="isSaving">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Guardando...
+                  </span>
+                </button>
+
+                <!-- Reset Button -->
+                <button 
+                  type="button" 
+                  class="btn btn-outline-secondary w-100"
+                  (click)="onReset()"
+                  [disabled]="isSaving || !hasUnsavedChanges()">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i>
+                  Descartar Cambios
+                </button>
+
+                <hr class="my-3">
+
+                <!-- Info -->
+                <div class="small text-muted">
+                  <p class="mb-2">
+                    <i class="bi bi-info-circle me-1"></i>
+                    <strong>Nota:</strong> Los cambios se aplicarán inmediatamente tras guardar.
+                  </p>
+                  <p class="mb-0">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Asegúrate de probar la configuración después de guardar.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Help Card -->
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Ayuda</h5>
+              </div>
+              <div class="card-body">
+                <div class="small">
+                  <p class="mb-2">
+                    <strong>System Prompt:</strong> Define la personalidad y comportamiento del bot.
+                  </p>
+                  <p class="mb-2">
+                    <strong>Tipo de Respuesta:</strong> Determina el formato de las respuestas del bot.
+                  </p>
+                  <p class="mb-2">
+                    <strong>Horarios:</strong> Limita la atención del bot a horarios específicos.
+                  </p>
+                  <p class="mb-0 text-muted">
+                    <i class="bi bi-question-circle me-1"></i>
+                    ¿Necesitas ayuda? Contacta a soporte.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

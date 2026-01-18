@@ -1,0 +1,9 @@
+{
+  "company_name": "Mi Empresa Actualizada",
+  "system_prompt": "Eres un asistente virtual experto en ventas y atención al cliente. Debes ser amable, profesional y ayudar a los clientes con sus consultas sobre productos y servicios. Siempre menciona las promociones activas.",
+  "answer_type_id": 2,
+  "welcome_message": "¡Hola! 👋 Bienvenido a Mi Empresa. Estoy aquí para ayudarte. ¿Qué necesitas hoy?",
+  "fallback_message": "Disculpa, no comprendí tu solicitud. Por favor, intenta de nuevo o selecciona una opción del menú.",
+  "business_hours_enabled": true,
+  "business_hours_json": "{\"monday\":{\"enabled\":true,\"open\":\"08:00\",\"close\":\"20:00\"},\"tuesday\":{\"enabled\":true,\"open\":\"08:00\",\"close\":\"20:00\"},\"wednesday\":{\"enabled\":true,\"open\":\"08:00\",\"close\":\"20:00\"},\"thursday\":{\"enabled\":true,\"open\":\"08:00\",\"close\":\"20:00\"},\"friday\":{\"enabled\":true,\"open\":\"08:00\",\"close\":\"20:00\"},\"saturday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"14:00\"},\"sunday\":{\"enabled\":false}}"
+}

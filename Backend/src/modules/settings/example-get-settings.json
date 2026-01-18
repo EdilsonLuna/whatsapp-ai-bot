@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "company_name": "Mi Empresa",
+    "system_prompt": "Eres un asistente virtual experto en ventas y atención al cliente. Debes ser amable, profesional y ayudar a los clientes con sus consultas sobre productos y servicios.",
+    "answer_type_id": 1,
+    "welcome_message": "¡Hola! Bienvenido a Mi Empresa. ¿En qué puedo ayudarte hoy?",
+    "fallback_message": "Lo siento, no entendí tu mensaje. ¿Podrías reformularlo o elegir una de las opciones disponibles?",
+    "business_hours_enabled": true,
+    "business_hours_json": "{\"monday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"18:00\"},\"tuesday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"18:00\"},\"wednesday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"18:00\"},\"thursday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"18:00\"},\"friday\":{\"enabled\":true,\"open\":\"09:00\",\"close\":\"18:00\"},\"saturday\":{\"enabled\":false},\"sunday\":{\"enabled\":false}}",
+    "created_at": "2026-01-01T10:00:00.000Z",
+    "updated_at": "2026-01-18T15:30:00.000Z",
+    "answer_type_name": "Conversacional",
+    "answer_type_description": "Respuestas en formato de conversación natural"
+  }
+}

@@ -41,9 +41,9 @@ export class SideBarComponent {
       icon: 'bi bi-box'
     },
     {
-      label: 'Productos',
+      label: 'Configuración',
       route: 'configuration',
-      icon: 'bi bi-box'
+      icon: 'bi bi-gear'
     }
   ];
 
