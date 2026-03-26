@@ -1,10 +1,91 @@
-# AiCommercePortal
+# Frontend — AI Social Messaging Platform (Portal de Administración)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+Portal web de administración construido con **Angular 19**. Permite a los operadores monitorear conversaciones de WhatsApp gestionadas por la IA, administrar el catálogo de productos y ajustar la configuración del asistente.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologías
+
+| Tecnología | Versión | Uso |
+|-----------|---------|-----|
+| Angular | 19 | Framework SPA principal |
+| TypeScript | — | Tipado estático |
+| Angular SSR | — | Server-Side Rendering |
+| Bootstrap | 5 | Framework de estilos y componentes UI |
+| Bootstrap Icons | — | Iconografía |
+| AG Grid | 35 | Grillas de datos avanzadas |
+| RxJS | 7.8 | Manejo de flujos asíncronos |
+| Angular Router | — | Navegación entre vistas |
+
+---
+
+## Estructura de carpetas
+
+```
+src/
+└── app/
+    ├── app.routes.ts              # Definición de rutas
+    ├── app.config.ts              # Configuración de la aplicación
+    ├── components/
+    │   ├── dashboard/             # Vista contenedora principal
+    │   ├── side-bar/              # Barra de navegación lateral
+    │   ├── chats/
+    │   │   ├── list-chats/        # Listado de conversaciones
+    │   │   │   └── info-chat/     # Historial de una conversación
+    │   │   └── create-chat/       # Iniciar nueva conversación
+    │   ├── products/              # Catálogo de productos
+    │   └── configuration/         # Configuración del asistente
+    ├── services/
+    │   ├── products.service.ts    # Llamadas a la API de productos
+    │   └── settings.service.ts   # Llamadas a la API de configuración
+    ├── guards/
+    │   └── unsaved-changes.guard.ts  # Protección ante cambios sin guardar
+    └── models/                    # Interfaces TypeScript
+```
+
+---
+
+## Instalación
+
+```bash
+# Instalar dependencias
+npm install
+```
+
+> Requiere Node.js >= 18 y Angular CLI instalado globalmente (`npm install -g @angular/cli`).
+
+---
+
+## Inicio
+
+```bash
+# Servidor de desarrollo (http://localhost:4200)
+npm start
+
+# Build de producción
+npm run build
+
+# Servidor SSR (tras el build)
+npm run serve:ssr:ai_commerce_portal
+```
+
+El portal se conecta al backend en `http://localhost:3000/api`. Asegúrate de que la API esté en ejecución antes de iniciar el frontend.
+
+---
+
+## Rutas de la aplicación
+
+| Ruta | Componente | Descripción |
+|------|-----------|-------------|
+| `/` | — | Redirige a `/Dashboard` |
+| `/Dashboard` | `DashboardComponent` | Contenedor principal con sidebar |
+| `/Dashboard/list-chats` | `ListChatsComponent` | Listado de conversaciones activas |
+| `/Dashboard/list-chats/chat/:id` | `InfoChatComponent` | Historial de mensajes de un chat |
+| `/Dashboard/create-conversation` | `CreateChatComponent` | Iniciar una nueva conversación |
+| `/Dashboard/products` | `ProductsComponent` | Catálogo de productos |
+| `/Dashboard/configuration` | `ConfigurationComponent` | Configuración del asistente de IA |
+
+> La ruta `/Dashboard/configuration` tiene activado el guard `unsavedChangesGuard` para advertir al usuario si intenta salir con cambios sin guardar.
 
 ## Code scaffolding
 
