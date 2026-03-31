@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { env } from '../../../../environments/environment';
 
 interface LastMessage {
   id: number;
@@ -39,7 +40,7 @@ export class ListChatsComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
 
-  private readonly API_URL = 'http://localhost:3000/api/conversations';
+  private readonly API_URL = `${env.API_URL}/conversations`;
 
   constructor(
     private http: HttpClient,
@@ -68,7 +69,7 @@ export class ListChatsComponent implements OnInit {
   }
 
   openConversation(conversationId: number): void {
-    this.router.navigate(['/Dashboard/list-chats/chat', conversationId]);
+    this.router.navigate(['/dashboard/list-chats/chat', conversationId]);
   }
 
   truncateMessage(message: string, maxLength: number = 40): string {

@@ -1,0 +1,428 @@
+/* ═══════════════════════════════════════════════════════════
+   Panel Left — Mobile-first
+   Breakpoints:
+     < 1201px  → drawer fijo (56px colapsado, 280px abierto con hamburguesa)
+     ≥ 1201px  → sidebar estático completo con etiquetas (desktop)
+   ═══════════════════════════════════════════════════════════ */
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* ── Contenedor principal ────────────────────────────────── */
+.panel-left {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-gray);
+  padding: 8px 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Backdrop oscuro (mobile, drawer abierto) ────────────── */
+.drawer-backdrop {
+  display: none; /* solo visible en mobile */
+}
+
+/* ── Botón hamburguesa ───────────────────────────────────── */
+.hamburger-btn {
+  display: none; /* solo en mobile */
+}
+
+/* ── Sección de usuario ──────────────────────────────────── */
+.user-section {
+  display: none; /* oculta en mobile colapsado y tablet; visible en desktop y mobile abierto */
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-blue-100);
+  color: var(--color-blue-500);
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.user-action-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-blue-100);
+  color: var(--color-blue-500);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    background-color: var(--color-blue-500);
+    color: #fff;
+  }
+}
+
+/* ── Miga de pan (mobile abierto) ────────────────────────── */
+.mobile-breadcrumb {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text-gray);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+    color: var(--color-blue-500);
+  }
+}
+
+/* ── Brand ───────────────────────────────────────────────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  min-height: 52px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--color-blue-100);
+  color: var(--color-blue-500);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: none; /* visible en desktop y mobile abierto */
+  flex-direction: column;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.brand-name {
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Nav list ────────────────────────────────────────────── */
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 0;
+}
+
+/* ── Nav item base ───────────────────────────────────────── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  width: 100%;
+  border: none;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  justify-content: center;
+  transition: background-color 0.18s ease,
+              border-left-color 0.18s ease,
+              color 0.18s ease;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+  }
+}
+
+.nav-label {
+  display: none; /* visible en desktop y mobile abierto */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-left-color: var(--color-blue-500);
+}
+
+.nav-item:hover mat-icon {
+  color: var(--color-blue-500);
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
+
+/* ── Spacer ──────────────────────────────────────────────── */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* ── Logout ──────────────────────────────────────────────── */
+.nav-item--logout {
+  color: #b00020;
+  margin-top: auto;
+}
+
+.nav-item--logout:hover {
+  background-color: rgba(176, 0, 32, 0.06);
+  border-left-color: #b00020;
+}
+
+.nav-item--logout:hover mat-icon {
+  color: #b00020;
+}
+
+/* ── Módulo padre expandible ─────────────────────────────── */
+.expand-icon {
+  display: none; /* visible solo cuando el panel está abierto */
+  margin-left: auto;
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  color: var(--text-gray);
+  transition: color 0.18s ease;
+}
+
+.nav-item--expanded {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-left-color: var(--color-blue-500);
+  color: var(--color-blue-500);
+
+  .expand-icon {
+    color: var(--color-blue-500);
+  }
+}
+
+/* ── Nav children ────────────────────────────────────────── */
+.nav-children {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item--child {
+  font-size: 13px;
+  padding: 8px 10px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   < 1201px: drawer fijo, hamburguesa, estado abierto
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+
+  .panel-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 56px;
+    z-index: 500;
+    padding: 8px 4px;
+    transition: width 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
+  }
+
+  /* ── Drawer abierto ── */
+  .panel-left.is-open {
+    width: 280px;
+    padding: 8px 12px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.18);
+    overflow-y: auto;
+  }
+
+  /* ── Backdrop (cubre solo la zona del contenido, no el panel) ── */
+  .panel-left.is-open .drawer-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 56px; /* excluye el área del panel colapsado */
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.42);
+    z-index: 499;
+    cursor: pointer;
+  }
+
+  /* ── Hamburguesa ── */
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--mat-sys-on-surface);
+    align-self: flex-start;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    transition: background-color 0.18s ease;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  /* ── Elementos que se muestran al abrir ── */
+  .panel-left.is-open .user-section { display: flex; }
+  .panel-left.is-open .brand-text   { display: flex; }
+  .panel-left.is-open .nav-label    { display: block; }
+  .panel-left.is-open .expand-icon  { display: block; }
+
+  .panel-left.is-open .brand {
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+
+  .panel-left.is-open .nav-item {
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+
+  .panel-left.is-open .nav-children {
+    padding-left: 12px;
+    margin-left: 4px;
+    border-left: 2px solid var(--color-blue-100);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   DESKTOP (≥ 1201px): sidebar estático con etiquetas
+   ════════════════════════════════════════════════════════════ */
+@media (min-width: 1201px) {
+
+  .panel-left {
+    position: relative;
+    width: 100%;
+    padding: 12px 8px;
+    transition: none;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  /* Hamburguesa oculta en desktop */
+  .hamburger-btn { display: none; }
+
+  /* User section vive en panel-top en desktop, no en panel-left */
+  .user-section,
+  .panel-left.is-open .user-section {
+    display: none !important;
+  }
+
+  .brand {
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+
+  .brand-text {
+    display: flex;
+  }
+
+  .nav-item {
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+
+  .nav-label {
+    display: block;
+  }
+
+  .expand-icon {
+    display: block;
+  }
+
+  .nav-children {
+    padding-left: 12px;
+    margin-left: 4px;
+    border-left: 2px solid var(--color-blue-100);
+  }
+}
+

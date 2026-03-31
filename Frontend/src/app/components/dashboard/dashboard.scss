@@ -1,0 +1,62 @@
+.parent {
+    /* Mobile: columna izquierda estrecha (íconos), sin fila de panel-top */
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    grid-template-rows: 1fr 20px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.panel-izquierdo {
+    /* Ocupa toda la altura en mobile */
+    grid-area: 1 / 1 / 3 / 2;
+    background-color: var(--background-gray);
+    border-right: 1px solid var(--border-gray);
+}
+
+.panel-superior {
+    /* Oculto en mobile: la info se mueve al panel-left */
+    display: none;
+}
+
+.panel-central {
+    grid-area: 1 / 2 / 2 / 3;
+    margin: 12px;
+    overflow-y: auto;
+}
+
+.panel-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+/* ── Desktop (≥ 1201px): panel-top visible, sidebar completo ── */
+@media (min-width: 1201px) {
+    .parent {
+        grid-template-columns: 220px 1fr;
+        grid-template-rows: 70px 1fr 20px;
+    }
+
+    .panel-izquierdo {
+        grid-area: 1 / 1 / 4 / 2;
+    }
+
+    .panel-superior {
+        display: block;
+        grid-area: 1 / 2 / 2 / 3;
+        border-bottom: 1px solid var(--border-gray);
+    }
+
+    .panel-central {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    .panel-footer {
+        grid-area: 3 / 2 / 4 / 3;
+    }
+}
+

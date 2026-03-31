@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Agregar Intereses</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="checkoutContainer">
+    <span>Valor del empeño</span>
+    <h6>123'000</h6>
+    <span>Número de meses a pagar</span>
+    <input type="number" placeholder="Ej: 2" class="form-control" id="inputValorMeses" name="inputValorMeses">
+    <!-- <hr style="border: 1px solid #3b3b3b; width: 80%; margin: 0px auto;"> -->
+    <span>Total a pagar</span>
+    <h6>123'000</h6>
+    <div class="containerFecha">
+      <mat-icon>calendar_today</mat-icon>
+      <div class="fechaContainer">
+        <p>Próxima fecha de vencimiento</p>
+        <p style="font-size: large;"><strong>12/12/2012</strong></p>
+      </div>  
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cerrar()">Cancelar</button>
+  <button mat-button mat-dialog-close (click)="guardar()" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

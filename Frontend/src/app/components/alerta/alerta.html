@@ -1,0 +1,6 @@
+@if(alerta().visible){
+  <div class="alert alert-{{alerta().tipo}} alert-dismissible fade show alerta-global" role="alert">
+    {{ alerta().mensaje }}
+    <button type="button" class="btn-close" aria-label="Cerrar" (click)="cerrar()"></button>
+  </div>
+}

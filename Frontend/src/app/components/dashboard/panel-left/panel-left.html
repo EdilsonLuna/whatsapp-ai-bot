@@ -1,0 +1,109 @@
+<aside class="panel-left" [class.is-open]="isMenuOpen()" role="navigation" aria-label="Menú principal">
+
+  <!-- Backdrop oscuro (mobile, cuando el drawer está abierto) -->
+  @if (isMenuOpen()) {
+    <div class="drawer-backdrop" (click)="toggleMenu()" aria-hidden="true"></div>
+  }
+
+  <!-- Botón hamburguesa (solo mobile) -->
+  <button
+    class="hamburger-btn"
+    type="button"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="isMenuOpen()"
+    aria-label="Abrir menú"
+  >
+    <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+  </button>
+
+  <!-- Sección de usuario (visible al abrir en mobile / siempre en desktop) -->
+  <div class="user-section">
+    <div class="user-avatar" aria-hidden="true">
+      <mat-icon fontIcon="person"></mat-icon>
+    </div>
+    <div class="user-info">
+      <strong class="user-name">ADMINISTRADOR</strong>
+      <div class="user-actions">
+        <button type="button" class="user-action-item" title="Perfil">
+          <mat-icon>manage_accounts</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button type="button" class="user-action-item" title="Configuración">
+          <mat-icon>settings</mat-icon>
+          <span>Config.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nombre empresa -->
+  <header class="brand">
+    <div class="brand-mark" aria-hidden="true">
+      <mat-icon fontIcon="workspace_premium"></mat-icon>
+    </div>
+    <span class="brand-text" [title]="nombreEmpresa">
+      <strong class="brand-name">{{ nombreEmpresa }}</strong>
+    </span>
+  </header>
+
+  <!-- Lista de módulos -->
+  <nav class="nav-list" aria-label="Secciones">
+
+    @for (item of menuItems; track item.module_name) {
+
+      @if (item.children && item.children.length > 0) {
+        <button
+          class="nav-item nav-item--parent"
+          type="button"
+          [class.nav-item--expanded]="isExpanded(item.module_name)"
+          (click)="toggleExpand(item.module_name)"
+          [title]="item.module_name"
+          [attr.aria-expanded]="isExpanded(item.module_name)"
+        >
+          <mat-icon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
+          <span class="nav-label">{{ item.module_name }}</span>
+          <mat-icon class="expand-icon" aria-hidden="true">
+            {{ isExpanded(item.module_name) ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </button>
+
+        @if (isExpanded(item.module_name)) {
+          <div class="nav-children" role="group" [attr.aria-label]="item.module_name + ' - submódulos'">
+            @for (child of item.children; track child.module_name) {
+              <button
+                class="nav-item nav-item--child"
+                type="button"
+                (click)="navegarA(child.route!)"
+                [title]="child.module_name"
+              >
+                <mat-icon [fontIcon]="child.icon" aria-hidden="true"></mat-icon>
+                <span class="nav-label">{{ child.module_name }}</span>
+              </button>
+            }
+          </div>
+        }
+
+      } @else {
+        <button
+          class="nav-item"
+          type="button"
+          (click)="navegarA(item.route!)"
+          [title]="item.module_name"
+        >
+          <mat-icon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
+          <span class="nav-label">{{ item.module_name }}</span>
+        </button>
+      }
+
+    }
+
+  </nav>
+
+  <div class="spacer"></div>
+
+  <button class="nav-item nav-item--logout" type="button" (click)="cerrarSesion()" title="Cerrar sesión">
+    <mat-icon fontIcon="power_settings_new" aria-hidden="true"></mat-icon>
+    <span class="nav-label">Cerrar Sesión</span>
+  </button>
+
+</aside>

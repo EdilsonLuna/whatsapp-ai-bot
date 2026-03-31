@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { env } from '../../../../../environments/environment';
 
 interface Message {
   id: number;
@@ -33,7 +34,7 @@ export class InfoChatComponent implements OnInit {
   errorMessage: string = '';
   selectedPrompt: string = '';
 
-  private readonly API_BASE_URL = 'http://localhost:3000/api/conversations';
+  private readonly API_BASE_URL = `${env.API_URL}/conversations`;
 
   constructor(
     private http: HttpClient,

@@ -1,0 +1,30 @@
+<div class="panelTopContainer">
+
+  <!-- Módulo activo -->
+  <div class="breadCumbContainer" aria-label="Navegación">
+    <mat-icon fontIcon="home" class="crumb-icon" aria-hidden="true"></mat-icon>
+    <h5 class="crumb-text">{{ currentModule }}</h5>
+  </div>
+
+  <!-- Tarjeta de usuario -->
+  <div class="user-section" aria-label="Usuario actual">
+    <div class="user-avatar" aria-hidden="true">
+      <mat-icon fontIcon="person"></mat-icon>
+    </div>
+    <div class="user-info">
+      <strong class="user-name">ADMINISTRADOR</strong>
+      <div class="user-actions">
+        <button type="button" class="user-action-item" title="Perfil">
+          <mat-icon>manage_accounts</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button type="button" class="user-action-item" title="Configuración">
+          <mat-icon>settings</mat-icon>
+          <span>Config.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

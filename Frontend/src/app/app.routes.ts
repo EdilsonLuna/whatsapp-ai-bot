@@ -1,42 +1,57 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ProductsComponent } from './components/products/products.component';
-import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { Dashboard } from './components/dashboard/dashboard';
+import { PageNotFound } from './components/page-not-found/page-not-found';
+import { Login } from './components/login/login';
+import { authGuard } from './guards/auth.guard';
+import { permissionGuard } from './guards/permission.guard';
 import { unsavedChangesGuard } from './guards/unsaved-changes.guard';
+import { PERMISSIONS } from './config/permissions';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'Dashboard',
+        canActivate: [authGuard],
+        component: Login,
         pathMatch: 'full'
     },
     {
-        path: 'Dashboard',
-        component: DashboardComponent,
-        children: [
+        path: 'login',
+        component: Login,
+        canActivate: [authGuard],
+        pathMatch: 'full'
+    },
+    {
+        path: 'dashboard',
+        component: Dashboard,
+        canActivate: [authGuard],
+        children:[
             {
                 path: 'create-conversation',
-                loadComponent: () => import('./components/chats/create-chat/create-chat.component').then(c=>c.CreateChatComponent)
+                loadComponent: () => import('./components/chats/create-chat/create-chat.component').then(c => c.CreateChatComponent)
             },
             {
                 path: 'list-chats',
-                loadComponent: () => import('./components/chats/list-chats/list-chats.component').then(c=>c.ListChatsComponent),
+                loadComponent: () => import('./components/chats/list-chats/list-chats.component').then(c => c.ListChatsComponent),
                 children: [
                     {
                         path: 'chat/:id',
-                        loadComponent : () => import('./components/chats/list-chats/info-chat/info-chat.component').then(c=>c.InfoChatComponent)
+                        loadComponent: () => import('./components/chats/list-chats/info-chat/info-chat.component').then(c => c.InfoChatComponent)
                     }
                 ]
             },
             {
                 path: 'products',
-                component: ProductsComponent
+                loadComponent: () => import('./components/products/products.component').then(c => c.ProductsComponent)
             },
             {
                 path: 'configuration',
-                component: ConfigurationComponent,
+                loadComponent: () => import('./components/configuration/configuration.component').then(c => c.ConfigurationComponent),
                 canDeactivate: [unsavedChangesGuard]
             }
         ]
+    },
+    {
+        path: '**',
+        component: PageNotFound
     }
 ];

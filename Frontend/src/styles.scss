@@ -1,16 +1,200 @@
-/* You can add global styles to this file, and also import other style files */
 
-/* Reset y estilos globales */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: white;}
+
+:root{
+  --text-gray : rgb(175, 175, 175);
+  --border-gray : rgb(211, 211, 211);
+  --background-gray : rgb(247, 247, 247);
+  --color-green-100: oklch(96.2% 0.044 156.743);
+  --color-green-700: oklch(52.7% 0.154 150.069);
+  --color-blue-100: oklch(93.2% 0.032 255.585);
+  --color-blue-500: oklch(62.3% 0.214 259.815);
+  --black: #000000;
+  --black-hover: rgb(34, 34, 34);
+  --mat-table-background-color: #faf9fd;
+  --inactive-background : rgb(155, 155, 155);
+  --enMora-background: rgb(253, 52, 52);
+  --activo-background: rgba(66, 212, 66, 0.801);
+}
+
+.icon{
+  width: auto !important;
+  height: fit-content !important;
+}
+
+.big-icon{
+  font-size: 40px !important;
+}
+
+.small-icon{
+  font-size: 30px;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+.extra-small-icon{
   font-size: 16px;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #ffffff;
+}
+
+.headerDatos{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.iconContainer{
+    padding: 4px;
+    border-radius: 8px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.titleContainer{
+    line-height: 4px;
+}
+
+.titleContainer>p{
+    color: var(--text-gray);
+}
+
+.docContainer{
+    background-color: var(--color-blue-100);
+}
+
+.docIcon{
+    color: var(--color-blue-500);
+}
+
+.personContainer{
+    background-color: var(--color-green-100);
+}
+.personIcon{
+    color: var(--color-green-700);
+}
+
+.formConsulta{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableRegistros{
+  margin-top: 32px;
+  background-color: var(--mat-table-background-color);
+}
+
+.pageCard{
+  padding: 12px;
+  background-color: rgb(245, 245, 245);
+  border-radius: 12px;
+  box-shadow: 0px 0px 8px rgba(158, 158, 158, 0.322);
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageCardTitle{
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0px;
+}
+
+.pageBodyCard{
+  height: 100%;
+}
+
+.pageFooterCard{ //Para que siempre este posicionado al final de la tarjeta
+  margin-top: auto;
+}
+
+.formDatosCliente {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 8px;
+  grid-row-gap: 20px;
+}
+
+@media (max-width:540px){
+  .formDatosCliente{
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+  }
 }

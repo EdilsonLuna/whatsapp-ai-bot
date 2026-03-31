@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { env } from '../../../../environments/environment';
 
 interface Message {
   text: string;
@@ -35,7 +36,7 @@ export class CreateChatComponent implements OnInit {
   phoneNumber: string = '';
   selectedPrompt: string = '';
   
-  private readonly API_URL = 'http://localhost:3000/api/pruebaOpenAI';
+  private readonly API_URL = `${env.API_URL}/pruebaOpenAI`;
 
   constructor(private http: HttpClient) {}
 

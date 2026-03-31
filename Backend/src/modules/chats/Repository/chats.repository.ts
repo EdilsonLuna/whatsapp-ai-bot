@@ -1,4 +1,3 @@
-import pool from "../../../config/db";
 import { 
   Conversation, 
   Message, 
@@ -6,7 +5,18 @@ import {
   CreateMessageDTO,
   UpdateConversationDTO
 } from "../../../models/chats.model";
-import { RowDataPacket, ResultSetHeader } from "mysql2";
+import { prismaClient } from "../../../prisma/prisma.client";
+import { tipo_remitente } from "../../../generated/prisma";
+
+const senderToPrisma: Record<string, tipo_remitente> = {
+  user: "usuario",
+  assistant: "asistente",
+};
+
+const senderFromPrisma: Record<tipo_remitente, "user" | "assistant"> = {
+  usuario: "user",
+  asistente: "assistant",
+};
 
 // ============================================
 // CONVERSACIONES
@@ -16,32 +26,35 @@ import { RowDataPacket, ResultSetHeader } from "mysql2";
  * Buscar conversación activa por número de teléfono
  */
 export const findConversationByPhone = async (userPhone: string): Promise<Conversation | null> => {
-  const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT id, user_phone, started_at, last_message_at, is_active 
-     FROM conversations 
-     WHERE user_phone = ? AND is_active = 1
-     LIMIT 1`,
-    [userPhone]
-  );
+  const row = await prismaClient.conversaciones.findFirst({
+    where: {
+      telefono_usuario: userPhone,
+      esta_activa: true,
+    },
+  });
 
-  if (rows.length === 0) {
-    return null;
-  }
+  if (!row) return null;
 
-  return rows[0] as Conversation;
+  return {
+    id: Number(row.id),
+    user_phone: row.telefono_usuario,
+    started_at: row.iniciado_en,
+    last_message_at: row.ultimo_mensaje_en,
+    is_active: row.esta_activa ?? true,
+  };
 };
 
 /**
  * Crear nueva conversación
  */
 export const createConversation = async (data: CreateConversationDTO): Promise<number> => {
-  const [result] = await pool.query<ResultSetHeader>(
-    `INSERT INTO conversations (user_phone, started_at, last_message_at, is_active) 
-     VALUES (?, NOW(), NOW(), 1)`,
-    [data.user_phone]
-  );
+  const row = await prismaClient.conversaciones.create({
+    data: {
+      telefono_usuario: data.user_phone,
+    },
+  });
 
-  return result.insertId;
+  return Number(row.id);
 };
 
 /**
@@ -51,29 +64,24 @@ export const updateConversation = async (
   conversationId: number, 
   data: UpdateConversationDTO
 ): Promise<void> => {
-  const updates: string[] = [];
-  const values: any[] = [];
+  const updateData: Record<string, any> = {};
 
   if (data.last_message_at) {
-    updates.push('last_message_at = ?');
-    values.push(data.last_message_at);
+    updateData.ultimo_mensaje_en = data.last_message_at;
   }
 
   if (data.is_active !== undefined) {
-    updates.push('is_active = ?');
-    values.push(data.is_active);
+    updateData.esta_activa = data.is_active;
   }
 
-  if (updates.length === 0) {
+  if (Object.keys(updateData).length === 0) {
     return;
   }
 
-  values.push(conversationId);
-
-  await pool.query(
-    `UPDATE conversations SET ${updates.join(', ')} WHERE id = ?`,
-    values
-  );
+  await prismaClient.conversaciones.update({
+    where: { id: conversationId },
+    data: updateData,
+  });
 };
 
 // ============================================
@@ -84,75 +92,84 @@ export const updateConversation = async (
  * Crear nuevo mensaje
  */
 export const createMessage = async (data: CreateMessageDTO): Promise<number> => {
-  const [result] = await pool.query<ResultSetHeader>(
-    `INSERT INTO messages (conversation_id, sender, message, prompt_sent, created_at) 
-     VALUES (?, ?, ?, ?, NOW())`,
-    [data.conversation_id, data.sender, data.message, data.prompt_sent || null]
-  );
+  const row = await prismaClient.mensajes.create({
+    data: {
+      id_conversacion: data.conversation_id,
+      remitente: senderToPrisma[data.sender],
+      mensaje: data.message,
+      prompt_enviado: data.prompt_sent ?? null,
+    },
+  });
 
-  return result.insertId;
+  return Number(row.id);
 };
 
 /**
  * Obtener mensajes de una conversación
  */
 export const getMessagesByConversation = async (conversationId: number): Promise<Message[]> => {
-  const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT id, conversation_id, sender, message, prompt_sent, created_at 
-     FROM messages 
-     WHERE conversation_id = ? 
-     ORDER BY created_at ASC`,
-    [conversationId]
-  );
+  const rows = await prismaClient.mensajes.findMany({
+    where: { id_conversacion: conversationId },
+    orderBy: { creado_en: "asc" },
+  });
 
-  return rows as Message[];
+  return rows.map((r) => ({
+    id: Number(r.id),
+    conversation_id: Number(r.id_conversacion),
+    sender: senderFromPrisma[r.remitente],
+    message: r.mensaje,
+    prompt_sent: r.prompt_enviado,
+    created_at: r.creado_en,
+  }));
 };
 
 /**
  * Obtener últimos N mensajes de una conversación
  */
 export const getLastMessages = async (conversationId: number, limit: number = 10): Promise<Message[]> => {
-  const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT id, conversation_id, sender, message, prompt_sent, created_at 
-     FROM messages 
-     WHERE conversation_id = ? 
-     ORDER BY created_at DESC 
-     LIMIT ?`,
-    [conversationId, limit]
-  );
+  const rows = await prismaClient.mensajes.findMany({
+    where: { id_conversacion: conversationId },
+    orderBy: { creado_en: "desc" },
+    take: limit,
+  });
 
   // Invertir orden para tener mensajes cronológicamente
-  return (rows as Message[]).reverse();
+  return rows.reverse().map((r) => ({
+    id: Number(r.id),
+    conversation_id: Number(r.id_conversacion),
+    sender: senderFromPrisma[r.remitente],
+    message: r.mensaje,
+    prompt_sent: r.prompt_enviado,
+    created_at: r.creado_en,
+  }));
 };
 
 /**
  * Obtener todas las conversaciones con su último mensaje
  */
 export const getAllConversationsWithLastMessage = async (): Promise<any[]> => {
-  const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT 
-      c.id,
-      c.user_phone,
-      c.started_at,
-      c.last_message_at,
-      c.is_active,
-      m.id as last_message_id,
-      m.sender as last_message_sender,
-      m.message as last_message_text,
-      m.created_at as last_message_created_at
-    FROM conversations c
-    LEFT JOIN (
-      SELECT m1.*
-      FROM messages m1
-      INNER JOIN (
-        SELECT conversation_id, MAX(created_at) as max_created_at
-        FROM messages
-        GROUP BY conversation_id
-      ) m2 ON m1.conversation_id = m2.conversation_id 
-        AND m1.created_at = m2.max_created_at
-    ) m ON c.id = m.conversation_id
-    ORDER BY c.last_message_at DESC`
-  );
+  const conversations = await prismaClient.conversaciones.findMany({
+    orderBy: { ultimo_mensaje_en: "desc" },
+    include: {
+      mensajes: {
+        orderBy: { creado_en: "desc" },
+        take: 1,
+      },
+    },
+  });
 
-  return rows as any[];
+  return conversations.map((c) => {
+    const lastMsg = c.mensajes[0] ?? null;
+    return {
+      id: Number(c.id),
+      user_phone: c.telefono_usuario,
+      started_at: c.iniciado_en,
+      last_message_at: c.ultimo_mensaje_en,
+      is_active: c.esta_activa,
+      last_message_id: lastMsg ? Number(lastMsg.id) : null,
+      last_message_sender: lastMsg ? senderFromPrisma[lastMsg.remitente] : null,
+      last_message_text: lastMsg?.mensaje ?? null,
+      last_message_created_at: lastMsg?.creado_en ?? null,
+    };
+  });
 };

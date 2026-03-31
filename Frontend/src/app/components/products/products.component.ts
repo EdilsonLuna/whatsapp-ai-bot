@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { ProductsService, Product } from '../../services/products.service';
+import { ProductsService, Product } from '../../services/Products/products.service';
 import { isPlatformBrowser } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
@@ -19,7 +19,6 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   loading: boolean = false;
   
-  // Configuración de columnas de AG-Grid
   colDefs: ColDef[] = [
     { 
       field: 'id', 
@@ -95,14 +94,12 @@ export class ProductsComponent implements OnInit {
     }
   ];
 
-  // Configuración por defecto de AG-Grid
   defaultColDef: ColDef = {
     resizable: true,
     sortable: true,
     filter: true
   };
 
-  // Opciones de paginación
   paginationPageSize = 10;
   paginationPageSizeSelector = [10, 25, 50, 100];
 
@@ -135,7 +132,6 @@ export class ProductsComponent implements OnInit {
   }
 
   createNewProduct(): void {
-    // TODO: Implementar lógica para crear nuevo producto
     console.log('Crear nuevo producto');
   }
 }

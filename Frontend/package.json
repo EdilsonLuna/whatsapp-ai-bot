@@ -1,48 +1,60 @@
 {
-  "name": "ai-commerce-portal",
+  "name": "frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host=0.0.0.0",
-    "build": "ng build",
+    "start": "npm run serve:ssr:Frontend",
+    "build": "ng build --configuration production --progress=false",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:ai_commerce_portal": "node dist/ai_commerce_portal/server/server.mjs"
+    "serve:ssr:Frontend": "node dist/Frontend/server/server.mjs"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "engines": {
+    "node": ">=22.15.1"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.2.18",
-    "@angular/common": "^19.2.18",
-    "@angular/compiler": "^19.2.18",
-    "@angular/core": "^19.2.18",
-    "@angular/forms": "^19.2.18",
-    "@angular/platform-browser": "^19.2.18",
-    "@angular/platform-browser-dynamic": "^19.2.18",
-    "@angular/platform-server": "^19.2.18",
-    "@angular/router": "^19.2.18",
-    "@angular/ssr": "^19.2.19",
-    "ag-grid-angular": "^35.0.0",
-    "ag-grid-community": "^35.0.0",
-    "bootstrap": "^5.3.8",
-    "bootstrap-icons": "^1.13.1",
-    "express": "^4.18.2",
+    "@angular/cdk": "^20.1.5",
+    "@angular/common": "^20.1.0",
+    "@angular/compiler": "^20.1.0",
+    "@angular/core": "^20.1.0",
+    "@angular/forms": "^20.1.0",
+    "@angular/material": "^20.1.5",
+    "@angular/platform-browser": "^20.1.0",
+    "@angular/platform-server": "^20.1.0",
+    "@angular/router": "^20.1.0",
+    "@angular/ssr": "^20.1.5",
+    "@popperjs/core": "^2.11.8",
+    "ag-grid-angular": "^35.2.0",
+    "ag-grid-community": "^35.2.0",
+    "bootstrap": "^5.3.7",
+    "express": "^5.1.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.15.1"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.2.19",
-    "@angular/cli": "^19.2.19",
-    "@angular/compiler-cli": "^19.2.18",
-    "@types/express": "^4.17.17",
+    "@angular/build": "^20.1.5",
+    "@angular/cli": "^20.1.5",
+    "@angular/compiler-cli": "^20.1.0",
+    "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
-    "@types/node": "^18.18.0",
-    "jasmine-core": "~5.1.0",
+    "@types/node": "^20.17.19",
+    "jasmine-core": "~5.8.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.2"
   }
 }

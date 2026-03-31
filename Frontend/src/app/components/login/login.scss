@@ -1,0 +1,146 @@
+/* Layout */
+.login-page{
+  min-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.login-header{
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.app-title{
+  margin: 0 0 6px 0;
+  font-weight: 800;
+  letter-spacing: .3px;
+}
+
+.app-subtitle{
+  margin: 0;
+  color: var(--text-gray);
+}
+
+/* Card */
+.login-card{
+  width: min(520px, 92%);
+  background: #fff;
+  border: 1px solid var(--border-gray);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+  padding: 22px 22px 16px 22px;
+}
+
+.card-icon{
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--background-gray);
+  color: var(--text-gray);
+  margin: 0 auto 8px auto;
+}
+
+.card-title{
+  text-align: center;
+  margin: 4px 0 0 0;
+}
+
+.card-subtitle{
+  text-align: center;
+  margin: 6px 0 12px 0;
+  color: var(--text-gray);
+}
+
+/* Form */
+.login-form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group label{
+  font-weight: 600;
+}
+
+.input-icon{
+  position: relative;
+}
+
+.input-icon > mat-icon{
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-gray);
+}
+
+.rounded-input{
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-gray);
+  padding: 12px 12px 12px 40px;
+  outline: none;
+  background: #fff;
+}
+
+.rounded-input:focus{
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.08);
+}
+
+.with-action .icon-button{
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.with-action .icon-button:hover{
+  background: rgba(0,0,0,0.04);
+}
+
+.login-button{
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #343a40; /* neutral dark */
+  color: #fff;
+  border: none;
+  font-weight: 700;
+}
+
+.login-button:hover{
+  background: #2f343a;
+}
+
+.forgot{
+  text-align: center;
+}
+
+.link{
+  color: #f4a261; /* soft orange accent */
+  text-decoration: underline;
+}
+
+.divider{
+  border: none;
+  border-top: 1px solid var(--border-gray);
+  margin: 12px 0 10px 0;
+}
+
+.hint{
+  text-align: center;
+  color: var(--text-gray);
+  margin: 0;
+}

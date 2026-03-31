@@ -1,0 +1,43 @@
+<main class="login-page">
+  <header class="login-header">
+    <h1 class="app-title"> {{nombreEmpresa}} </h1>
+    <p class="app-subtitle"> {{emblemaEmpresa}} </p>
+  </header>
+
+  <section class="login-card" aria-label="Iniciar sesión">
+    <div class="card-icon" aria-hidden="true">
+      <mat-icon fontIcon="shield" class="icon"></mat-icon>
+    </div>
+
+    <h2 class="card-title">Iniciar Sesión</h2>
+    <p class="card-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+
+    <form class="login-form" (submit)="iniciarSesion()" [formGroup]="formDataUsuario">
+      <div class="form-group">
+        <label for="usuario">Usuario</label>
+        <div class="input-icon">
+          <mat-icon fontIcon="person" class="icon extra-small-icon" aria-hidden="true"></mat-icon>
+          <input id="usuario" type="text" class="form-control rounded-input" placeholder="Ingrese su usuario" autocomplete="username" formControlName="usuario">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <div class="input-icon with-action">
+          <mat-icon fontIcon="lock" class="icon extra-small-icon" aria-hidden="true"></mat-icon>
+          <input id="contrasena" type="password" class="form-control rounded-input" placeholder="Ingrese su contraseña" autocomplete="current-password" formControlName="contrasena">
+          <button class="icon-button" type="button" aria-label="Mostrar contraseña">
+            <mat-icon fontIcon="visibility" class="icon extra-small-icon" aria-hidden="true"></mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary login-button">Iniciar Sesión</button>
+      <br>
+      
+      <div class="forgot">
+        <a href="#" class="link">¿Olvidó su contraseña?</a>
+      </div>
+    </form>
+  </section>
+</main>

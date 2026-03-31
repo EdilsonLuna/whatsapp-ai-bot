@@ -17,7 +17,7 @@ export const metaWebhookValidation = (req:Request, res:Response) => {
         return res.sendStatus(403);
     }
     }
-    res.sendStatus(400);
+    return res.sendStatus(400);
 }
 
 export const metaWebhookMessage = async (req: Request, res: Response) => {

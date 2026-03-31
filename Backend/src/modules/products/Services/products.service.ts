@@ -238,7 +238,7 @@ export const actualizarStockProducto = async (productId: number, quantity: numbe
         }
 
         // Validar que el stock resultante no sea negativo
-        const newStock = product.stock + quantity;
+        const newStock = (product.stock ?? 0) + quantity;
         if (newStock < 0) {
             throw new Error('Stock insuficiente para realizar la operación');
         }

@@ -1,108 +1,59 @@
-# Frontend — AI Social Messaging Platform (Portal de Administración)
+# Frontend
 
-Portal web de administración construido con **Angular 19**. Permite a los operadores monitorear conversaciones de WhatsApp gestionadas por la IA, administrar el catálogo de productos y ajustar la configuración del asistente.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
 
----
+## Development server
 
-## Tecnologías
-
-| Tecnología | Versión | Uso |
-|-----------|---------|-----|
-| Angular | 19 | Framework SPA principal |
-| TypeScript | — | Tipado estático |
-| Angular SSR | — | Server-Side Rendering |
-| Bootstrap | 5 | Framework de estilos y componentes UI |
-| Bootstrap Icons | — | Iconografía |
-| AG Grid | 35 | Grillas de datos avanzadas |
-| RxJS | 7.8 | Manejo de flujos asíncronos |
-| Angular Router | — | Navegación entre vistas |
-
----
-
-## Estructura de carpetas
-
-```
-src/
-└── app/
-    ├── app.routes.ts              # Definición de rutas
-    ├── app.config.ts              # Configuración de la aplicación
-    ├── components/
-    │   ├── dashboard/             # Vista contenedora principal
-    │   ├── side-bar/              # Barra de navegación lateral
-    │   ├── chats/
-    │   │   ├── list-chats/        # Listado de conversaciones
-    │   │   │   └── info-chat/     # Historial de una conversación
-    │   │   └── create-chat/       # Iniciar nueva conversación
-    │   ├── products/              # Catálogo de productos
-    │   └── configuration/         # Configuración del asistente
-    ├── services/
-    │   ├── products.service.ts    # Llamadas a la API de productos
-    │   └── settings.service.ts   # Llamadas a la API de configuración
-    ├── guards/
-    │   └── unsaved-changes.guard.ts  # Protección ante cambios sin guardar
-    └── models/                    # Interfaces TypeScript
-```
-
----
-
-## Instalación
+To start a local development server, run:
 
 ```bash
-# Instalar dependencias
-npm install
+ng serve
 ```
 
-> Requiere Node.js >= 18 y Angular CLI instalado globalmente (`npm install -g @angular/cli`).
-
----
-
-## Inicio
-
-```bash
-# Servidor de desarrollo (http://localhost:4200)
-npm start
-
-# Build de producción
-npm run build
-
-# Servidor SSR (tras el build)
-npm run serve:ssr:ai_commerce_portal
-```
-
-El portal se conecta al backend en `http://localhost:3000/api`. Asegúrate de que la API esté en ejecución antes de iniciar el frontend.
-
----
-
-## Rutas de la aplicación
-
-| Ruta | Componente | Descripción |
-|------|-----------|-------------|
-| `/` | — | Redirige a `/Dashboard` |
-| `/Dashboard` | `DashboardComponent` | Contenedor principal con sidebar |
-| `/Dashboard/list-chats` | `ListChatsComponent` | Listado de conversaciones activas |
-| `/Dashboard/list-chats/chat/:id` | `InfoChatComponent` | Historial de mensajes de un chat |
-| `/Dashboard/create-conversation` | `CreateChatComponent` | Iniciar una nueva conversación |
-| `/Dashboard/products` | `ProductsComponent` | Catálogo de productos |
-| `/Dashboard/configuration` | `ConfigurationComponent` | Configuración del asistente de IA |
-
-> La ruta `/Dashboard/configuration` tiene activado el guard `unsavedChangesGuard` para advertir al usuario si intenta salir con cambios sin guardar.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-## Build
+```bash
+ng generate component component-name
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+For end-to-end (e2e) testing, run:
 
-## Further help
+```bash
+ng e2e
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

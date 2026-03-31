@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { SettingsService } from '../../services/settings.service';
+import { SettingsService } from '../../services/Settings/settings.service';
 import {
   SettingsData,
   AnswerType,
   BusinessHours,
   UpdateSettingsPayload,
   DAYS_OF_WEEK
-} from '../../models/settings.model';
+} from './model/settings.model';
 import { ComponentCanDeactivate } from '../../guards/unsaved-changes.guard';
 import { forkJoin } from 'rxjs';
 
@@ -56,9 +56,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     this.removeBeforeUnload();
   }
 
-  /**
-   * Guard para prevenir navegación con cambios sin guardar
-   */
   canDeactivate(): boolean {
     if (this.hasUnsavedChanges()) {
       return false;
@@ -66,17 +63,11 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     return true;
   }
 
-  /**
-   * Detectar cambios sin guardar
-   */
   hasUnsavedChanges(): boolean {
     if (!this.originalFormValue) return false;
     return JSON.stringify(this.configForm.value) !== JSON.stringify(this.originalFormValue);
   }
 
-  /**
-   * Setup beforeunload para detectar cierre de pestaña
-   */
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.hasUnsavedChanges()) {
@@ -84,17 +75,10 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     }
   }
 
-  private setupBeforeUnload(): void {
-    // Ya manejado por @HostListener
-  }
+  private setupBeforeUnload(): void {}
 
-  private removeBeforeUnload(): void {
-    // Limpieza si es necesaria
-  }
+  private removeBeforeUnload(): void {}
 
-  /**
-   * Inicializar formulario
-   */
   private initializeForm(): void {
     this.configForm = this.fb.group({
       company_name: ['', [Validators.required]],
@@ -107,16 +91,10 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Getter para el FormArray de horarios
-   */
   get businessHoursArray(): FormArray {
     return this.configForm.get('business_hours') as FormArray;
   }
 
-  /**
-   * Cargar datos iniciales
-   */
   private loadData(): void {
     this.isLoading = true;
     this.loadError = false;
@@ -139,9 +117,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Poblar formulario con datos existentes
-   */
   private populateForm(data: SettingsData): void {
     this.configForm.patchValue({
       company_name: data.company_name,
@@ -152,7 +127,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
       business_hours_enabled: data.business_hours_enabled
     });
 
-    // Parsear y cargar business hours
     if (data.business_hours_json) {
       try {
         const businessHours: BusinessHours = JSON.parse(data.business_hours_json);
@@ -162,13 +136,9 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
       }
     }
 
-    // Guardar estado original
     this.originalFormValue = this.configForm.value;
   }
 
-  /**
-   * Cargar horarios de negocio en el FormArray
-   */
   private loadBusinessHours(businessHours: BusinessHours): void {
     this.businessHoursArray.clear();
     
@@ -178,9 +148,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Crear un FormGroup para un día
-   */
   private createBusinessHourGroup(dayKey: string, data?: any): FormGroup {
     return this.fb.group({
       day: [dayKey, Validators.required],
@@ -190,9 +157,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Agregar nuevo día
-   */
   addBusinessHour(): void {
     const usedDays = this.businessHoursArray.value.map((bh: any) => bh.day);
     const availableDays = this.daysOfWeek.filter(d => !usedDays.includes(d.key));
@@ -205,26 +169,17 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     this.businessHoursArray.push(this.createBusinessHourGroup(availableDays[0].key));
   }
 
-  /**
-   * Eliminar un día
-   */
   removeBusinessHour(index: number): void {
     if (confirm('¿Estás seguro de eliminar este horario?')) {
       this.businessHoursArray.removeAt(index);
     }
   }
 
-  /**
-   * Obtener label del día
-   */
   getDayLabel(dayKey: string): string {
     const day = this.daysOfWeek.find(d => d.key === dayKey);
     return day ? day.label : dayKey;
   }
 
-  /**
-   * Obtener días disponibles para un select
-   */
   getAvailableDays(currentDay?: string): typeof DAYS_OF_WEEK {
     const usedDays = this.businessHoursArray.value
       .map((bh: any) => bh.day)
@@ -233,9 +188,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     return this.daysOfWeek.filter(d => !usedDays.includes(d.key));
   }
 
-  /**
-   * Contadores de caracteres
-   */
   getCharCount(controlName: string): number {
     const value = this.configForm.get(controlName)?.value || '';
     return value.length;
@@ -245,9 +197,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     return this.CHAR_LIMITS[controlName as keyof typeof this.CHAR_LIMITS] || 0;
   }
 
-  /**
-   * Obtener clase de progreso según porcentaje
-   */
   getProgressClass(controlName: string): string {
     const count = this.getCharCount(controlName);
     const limit = this.getCharLimit(controlName);
@@ -258,9 +207,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     return 'text-muted';
   }
 
-  /**
-   * Guardar configuración
-   */
   onSubmit(): void {
     if (this.configForm.invalid) {
       this.markFormGroupTouched(this.configForm);
@@ -275,7 +221,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
 
     const formValue = this.configForm.value;
     
-    // Construir business_hours_json
     const businessHoursJson = this.buildBusinessHoursJson(formValue.business_hours);
 
     const payload: UpdateSettingsPayload = {
@@ -306,9 +251,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Construir JSON de horarios de negocio
-   */
   private buildBusinessHoursJson(businessHours: any[]): string {
     const businessHoursObj: BusinessHours = {};
     
@@ -323,9 +265,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     return JSON.stringify(businessHoursObj);
   }
 
-  /**
-   * Marcar todos los campos como touched para mostrar errores
-   */
   private markFormGroupTouched(formGroup: FormGroup | FormArray): void {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
@@ -337,9 +276,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy, ComponentCanDe
     });
   }
 
-  /**
-   * Resetear formulario
-   */
   onReset(): void {
     if (confirm('¿Estás seguro de descartar todos los cambios?')) {
       if (this.originalFormValue) {
