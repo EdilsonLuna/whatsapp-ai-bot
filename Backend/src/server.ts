@@ -1,8 +1,8 @@
 import cors from 'cors';
-import express, { Request, Response, NextFunction } from 'express';
+import router from './router/router';
+import express, { Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
-import cookieParser from "cookie-parser";
-import router from './routes/router';
+import cookieParser from 'cookie-parser';
 
 //Declaracion del servidor
 const app = express();
@@ -15,34 +15,29 @@ const limiter = rateLimit({
 });
 
 //Configuracion
-app.set("trust proxy", 1);
+app.set("trust proxy", false);
+
 //Uso de middlewares
+
 //Middleware de seguridad
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:4200',
+  ],
+  credentials: true
+}));
 //Middleware para uso de json
 app.use(express.json());
-//Middleware para mapear las cookies que vienen en los headers de las peticiones
-app.use(cookieParser());
 //Middleware para limitar la cantidad de peticiones por ip
 app.use(limiter);
-//Middleware de manejo global de errores
-// app.use((req:Request, res:Response, next:NextFunction) => 
-// { 
-//   if(( req.method == "POST" && req.body == undefined) || (req.method == "GET" && req.headers == undefined))
-//   {
-//     console.log('error en uno de los parametros');
-//     console.log('Body:', req.body);
-//     console.log('Headers:', req.headers);
-//     return res.status(500).json({status: 'error', msg:'Peticion erronea'}); 
-//   } else{
-//     next();
-//   }
-// });
+//Middleware para poder hacer uso de las cookies
+app.use(cookieParser());
 //Enrutador
 app.use('/api', router);
 //Redirigir las rutas no mapeadas
-app.use((req:Request, res:Response) => {
-    res.status(404).json({status: 'error', msg: 'Ruta no encontrada'});
+app.use((req: Request, res: Response) => {
+  console.log("ruta no encontrada");
+  res.status(404).json({status: 'error', msg: 'Ruta no encontrada'});
 });
 
 

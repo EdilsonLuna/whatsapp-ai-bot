@@ -1,10 +1,45 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model configuraciones {
+  id                 BigInt         @id @default(autoincrement())
+  nombre_empresa     String         @db.VarChar(120)
+  prompt_sistema     String
+  id_tipo_respuesta  BigInt
+  mensaje_bienvenida String?
+  mensaje_fallback   String?
+  horario_habilitado Boolean        @default(false)
+  horario_json       Json?          @db.Json
+  creado_en          DateTime       @default(now()) @db.Timestamp(6)
+  actualizado_en     DateTime       @default(now()) @db.Timestamp(6)
+  tipo_respuesta     tipo_respuesta @relation(fields: [id_tipo_respuesta], references: [id], onUpdate: Restrict, map: "fk_configuracion_tipo_respuesta")
+}
+
+model conversaciones {
+  id                BigInt     @id @default(autoincrement())
+  telefono_usuario  String     @db.VarChar(20)
+  iniciado_en       DateTime   @default(now()) @db.Timestamp(6)
+  ultimo_mensaje_en DateTime   @default(now()) @db.Timestamp(6)
+  esta_activa       Boolean?   @default(true)
+  mensajes          mensajes[]
+}
+
+model mensajes {
+  id              BigInt         @id @default(autoincrement())
+  id_conversacion BigInt
+  remitente       tipo_remitente
+  mensaje         String
+  prompt_enviado  String?
+  creado_en       DateTime       @default(now()) @db.Timestamp(6)
+  conversaciones  conversaciones @relation(fields: [id_conversacion], references: [id], onUpdate: Restrict, map: "fk_mensajes_conversacion")
+
+  @@index([id_conversacion], map: "idx_mensajes_conversacion")
 }
 
 model permisos {
@@ -20,6 +55,20 @@ model permisos {
   usuarios_permisos_usuario_crea_fkTousuarios     usuarios        @relation("permisos_usuario_crea_fkTousuarios", fields: [usuario_crea_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_crea")
   usuarios_permisos_usuario_modifica_fkTousuarios usuarios        @relation("permisos_usuario_modifica_fkTousuarios", fields: [usuario_modifica_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuario_modifica_fk")
   roles_permiso                                   roles_permiso[]
+}
+
+model productos {
+  id               Int            @id @default(autoincrement())
+  id_tipo_producto Int
+  nombre           String         @db.VarChar(150)
+  descripcion      String?
+  precio           Decimal?       @db.Decimal(10, 2)
+  stock            Int?           @default(0)
+  esta_activo      Boolean?       @default(true)
+  creado_en        DateTime       @default(now()) @db.Timestamp(6)
+  tipos_producto   tipos_producto @relation(fields: [id_tipo_producto], references: [id], onUpdate: Restrict, map: "fk_productos_tipo")
+
+  @@index([id_tipo_producto], map: "idx_productos_tipo")
 }
 
 model roles {
@@ -51,6 +100,21 @@ model roles_permiso {
   permisos                                             permisos @relation(fields: [permiso_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "permiso_fk")
   roles                                                roles    @relation(fields: [rol_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rol_fk")
   usuarios_roles_permiso_usuario_modifica_fkTousuarios usuarios @relation("roles_permiso_usuario_modifica_fkTousuarios", fields: [usuario_modifica_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuario_modifica_fk")
+}
+
+model tipo_respuesta {
+  id              BigInt            @id @default(autoincrement())
+  nombre_tipo     String            @db.VarChar(50)
+  descripcion     String?           @db.VarChar(255)
+  creado_en       DateTime          @default(now()) @db.Timestamp(6)
+  actualizado_en  DateTime          @default(now()) @db.Timestamp(6)
+  configuraciones configuraciones[]
+}
+
+model tipos_producto {
+  id        Int         @id @default(autoincrement())
+  nombre    String      @db.VarChar(50)
+  productos productos[]
 }
 
 model usuarios {
@@ -116,4 +180,9 @@ model usuarios_token {
   usuarios_usuarios_token_usuario_crea_fkTousuarios     usuarios @relation("usuarios_token_usuario_crea_fkTousuarios", fields: [usuario_crea_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_crea")
   usuarios_usuarios_token_usuario_fkTousuarios          usuarios @relation("usuarios_token_usuario_fkTousuarios", fields: [usuario_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuario_fk")
   usuarios_usuarios_token_usuario_modifica_fkTousuarios usuarios @relation("usuarios_token_usuario_modifica_fkTousuarios", fields: [usuario_modifica_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuario_modifica_fk")
+}
+
+enum tipo_remitente {
+  usuario
+  asistente
 }

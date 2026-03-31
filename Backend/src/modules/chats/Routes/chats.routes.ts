@@ -2,7 +2,7 @@ import { Router } from "express";
 import { 
     getConversationHistory,
     getAllConversations 
-} from "../chats.controller";
+} from "../Controller/chats.controller";
 
 const chatsRoutes = Router();
 

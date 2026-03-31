@@ -3,7 +3,7 @@ import {
     obtenerConfiguracion,
     actualizarConfiguracion,
     obtenerTiposRespuesta 
-} from "../settings.controller";
+} from "../Controller/settings.controller";
 
 const settingsRoutes = Router();
 
