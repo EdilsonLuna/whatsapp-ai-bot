@@ -1,13 +1,18 @@
 export const PERMISSIONS = {
   EMPENOS: {
-    CREAR: "empenos:crear",
-    CONSULTAR_LISTADO: "empenos:consultar_listado",
-    CONSULTAR_DETALLADO: "empenos:consultar_detallado",
-    REGISTRAR_INTERESES: "empenos:registrar_intereses",
-    RETIRAR: "empenos:retirar",
+    CREAR: "READ_CHATS",
+    CONSULTAR_LISTADO: "READ_CHATS",
+    CONSULTAR_DETALLADO: "READ_CHATS",
+    REGISTRAR_INTERESES: "READ_CHATS",
+    RETIRAR: "READ_CHATS",
   },
   USUARIOS: {
-    CONSULTAR: "usuarios:consultar",
-    CREAR: "usuarios:crear",
+    CONSULTAR: "READ_CHATS",
+    CREAR: "READ_CHATS",
+  },
+  CLIENTES: {
+    CONSULTAR: "READ_CHATS",
+    CREAR: "READ_CHATS",
+    ACTUALIZAR: "READ_CHATS",
   },
 } as const;
