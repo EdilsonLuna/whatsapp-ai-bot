@@ -131,6 +131,7 @@ model usuarios {
   email                                                       String           @unique(map: "unique_email") @db.VarChar(200)
   contrasena                                                  String
   activo                                                      Boolean          @default(true)
+  usuario                                                     String           @unique @db.VarChar(100)
   permisos_permisos_usuario_crea_fkTousuarios                 permisos[]       @relation("permisos_usuario_crea_fkTousuarios")
   permisos_permisos_usuario_modifica_fkTousuarios             permisos[]       @relation("permisos_usuario_modifica_fkTousuarios")
   roles_roles_usuario_crea_fkTousuarios                       roles[]          @relation("roles_usuario_crea_fkTousuarios")
