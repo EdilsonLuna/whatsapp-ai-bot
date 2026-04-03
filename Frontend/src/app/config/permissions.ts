@@ -4,21 +4,21 @@
  */
 export const PERMISSIONS = {
   EMPENOS: {
-    CREAR: 'empenos:crear',
-    CONSULTAR_LISTADO: 'empenos:consultar_listado',
-    CONSULTAR_DETALLADO: 'empenos:consultar_detallado',
-    REGISTRAR_INTERESES: 'empenos:registrar_intereses',
-    RETIRAR: 'empenos:retirar',
+    CREAR: 'READ_EMPENOS',
+    CONSULTAR_LISTADO: 'READ_EMPENOS',
+    CONSULTAR_DETALLADO: 'READ_EMPENOS',
+    REGISTRAR_INTERESES: 'READ_EMPENOS',
+    RETIRAR: 'READ_EMPENOS',
   },
   USUARIOS: {
-    CONSULTAR: 'usuarios:consultar',
-    CREAR: 'usuarios:crear',
+    CONSULTAR: 'READ_EMPENOS',
+    CREAR: 'READ_EMPENOS',
   },
   CLIENTES: {
-    CONSULTAR: 'clientes:consultar',
-    CREAR: 'clientes:crear',
+    CONSULTAR: 'READ_EMPENOS',
+    CREAR: 'READ_EMPENOS',
   },
   INFORMES: {
-    CONSULTAR: 'informes:consultar',
+    CONSULTAR: 'READ_EMPENOS',
   },
 } as const;

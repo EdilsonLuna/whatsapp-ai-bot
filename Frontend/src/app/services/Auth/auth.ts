@@ -27,7 +27,7 @@ export class Auth {
   private readonly baseUrl = env.API_URL + this.authEndpoint;
 
   iniciarSesion(params: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/login', params);
+    return this.http.post(this.baseUrl + '/login', params, { withCredentials: true });
   }
 
   restablecerConstrasena(params: any): Observable<any> {

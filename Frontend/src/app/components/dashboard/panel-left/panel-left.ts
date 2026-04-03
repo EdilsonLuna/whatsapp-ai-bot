@@ -5,6 +5,7 @@ import { filter, Subscription } from 'rxjs';
 import { NavService } from '../../../services/Nav/nav.service';
 import { NavItem } from '../../../models/nav-item.model';
 import { AppInitializerService } from '../../../core/services/app-initializer.service';
+import { env } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-panel-left',
@@ -17,7 +18,7 @@ export class PanelLeft implements OnInit, OnDestroy {
   private navService     = inject(NavService);
   private appInitializer = inject(AppInitializerService);
 
-  nombreEmpresa = 'LA PIÑA DE ORO';
+  nombreEmpresa = env.NOMBRE_EMPRESA;
   menuItems: NavItem[] = this.navService.getMenuItems();
 
   private expandedItems = signal<Set<string>>(new Set());

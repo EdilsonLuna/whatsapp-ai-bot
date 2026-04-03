@@ -16,6 +16,16 @@
     <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
   </button>
 
+  <!-- Nombre empresa -->
+  <header class="brand">
+    <div class="brand-mark" aria-hidden="true">
+      <mat-icon fontIcon="workspace_premium"></mat-icon>
+    </div>
+    <span class="brand-text" [title]="nombreEmpresa">
+      <strong class="brand-name">{{ nombreEmpresa }}</strong>
+    </span>
+  </header>
+
   <!-- Sección de usuario (visible al abrir en mobile / siempre en desktop) -->
   <div class="user-section">
     <div class="user-avatar" aria-hidden="true">
@@ -35,16 +45,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Nombre empresa -->
-  <header class="brand">
-    <div class="brand-mark" aria-hidden="true">
-      <mat-icon fontIcon="workspace_premium"></mat-icon>
-    </div>
-    <span class="brand-text" [title]="nombreEmpresa">
-      <strong class="brand-name">{{ nombreEmpresa }}</strong>
-    </span>
-  </header>
 
   <!-- Lista de módulos -->
   <nav class="nav-list" aria-label="Secciones">

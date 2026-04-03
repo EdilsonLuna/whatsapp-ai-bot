@@ -13,6 +13,12 @@ export interface NavItem {
   route?: string;
 
   /**
+   * Permiso requerido para ver este ítem (ej. 'empenos:crear').
+   * Si no se define, el ítem es visible para todos los usuarios autenticados.
+   */
+  permission?: string;
+
+  /**
    * Lista de sub-módulos hijos.
    * Si está presente, el ítem actúa como grupo expandible
    * y la propiedad `route` es ignorada.
